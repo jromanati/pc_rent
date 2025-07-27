@@ -26,7 +26,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { useParams } from "next/navigation"
-import { MobileNav } from "@/components/mobile-nav"
+import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
@@ -48,8 +48,6 @@ export default function ProductDetailPage() {
         "/images/mac_mr_2.jpeg?height=600&width=800&text=MacBook+Air+M3+Front",
         "/images/mac_mr_3.jpg?height=600&width=800&text=MacBook+Air+M3+Front",
       ],
-      pricePerMonth: 45000,
-      originalPrice: 1899000,
       specs: {
         processor: "Apple M3 8-core CPU",
         processorDetails: "4 núcleos de rendimiento y 4 núcleos de eficiencia",
@@ -136,13 +134,7 @@ export default function ProductDetailPage() {
     )
   }
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("es-CL", {
-      style: "currency",
-      currency: "CLP",
-      minimumFractionDigits: 0,
-    }).format(price)
-  }
+  
 
   const relatedProducts = allLaptops
     .filter((p) => p.id !== productId && (p.brand === product.brand || p.category === product.category))
@@ -150,6 +142,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
 
@@ -244,21 +237,9 @@ export default function ProductDetailPage() {
 
             {/* Pricing */}
             <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="text-3xl font-bold text-blue-600">{formatPrice(product.pricePerMonth)}</div>
-                  <div className="text-sm text-gray-600">por mes</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm text-gray-500 line-through">{formatPrice(product.originalPrice)}</div>
-                  <div className="text-sm text-green-600 font-medium">Precio de compra</div>
-                </div>
-              </div>
               <div className="text-sm text-gray-600 space-y-1">
                 <p>• Incluye soporte técnico 24/7</p>
-                <p>• Entrega e instalación gratuita</p>
                 <p>• Equipos de reemplazo inmediato</p>
-                <p>• Sin compromiso de permanencia</p>
               </div>
             </div>
 
@@ -527,9 +508,6 @@ export default function ProductDetailPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center justify-between mb-4">
-                      <div className="text-xl font-bold text-blue-600">
-                        {formatPrice(relatedProduct.pricePerMonth)}/mes
-                      </div>
                       <Badge className="bg-green-100 text-green-800">{relatedProduct.availability}</Badge>
                     </div>
                     <div className="flex gap-2">

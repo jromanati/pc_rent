@@ -6,10 +6,11 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Laptop, Search, Filter, Star, Grid3X3, List, SlidersHorizontal, Calculator, } from "lucide-react"
+import { Laptop, Search, Filter, Star, Grid3X3, List, SlidersHorizontal, Calculator, Phone, Mail} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useMemo } from "react"
+import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
@@ -18,7 +19,6 @@ export default function CatalogoPage() {
   const [selectedBrand, setSelectedBrand] = useState("all")
   const [selectedRAM, setSelectedRAM] = useState("all")
   const [selectedProcessor, setSelectedProcessor] = useState("all")
-  const [priceRange, setPriceRange] = useState("all")
   const [sortBy, setSortBy] = useState("featured")
   const [viewMode, setViewMode] = useState("grid")
   const [showFilters, setShowFilters] = useState(false)
@@ -29,7 +29,6 @@ export default function CatalogoPage() {
       name: "Apple MacBook Air M3",
       brand: "Apple",
       image: "/images/mac_mr.jpg?height=300&width=400&text=MacBook+Air+M3",
-      price: "Desde $45.000/mes",
       specs: {
         screen: "15.3 pulgadas",
         processor: "Apple M3",
@@ -50,7 +49,6 @@ export default function CatalogoPage() {
       name: "Apple MacBook Pro M3",
       brand: "Apple",
       image: "/placeholder.svg?height=300&width=400&text=MacBook+Pro+M3",
-      price: "Desde $55.000/mes",
       specs: {
         screen: "16 pulgadas",
         processor: "Apple M3 Pro",
@@ -71,7 +69,6 @@ export default function CatalogoPage() {
       name: "Acer Aspire Lite Ryzen 7",
       brand: "Acer",
       image: "/placeholder.svg?height=300&width=400&text=Acer+Aspire+Lite",
-      price: "Desde $28.000/mes",
       specs: {
         screen: "15.6 pulgadas",
         processor: "AMD Ryzen 7 5700U",
@@ -92,7 +89,6 @@ export default function CatalogoPage() {
       name: "Acer Predator Helios 300",
       brand: "Acer",
       image: "/placeholder.svg?height=300&width=400&text=Acer+Predator",
-      price: "Desde $42.000/mes",
       specs: {
         screen: "15.6 pulgadas",
         processor: "Intel Core i7-12700H",
@@ -113,7 +109,6 @@ export default function CatalogoPage() {
       name: "HP Pavilion 15-Eg0522La",
       brand: "HP",
       image: "/placeholder.svg?height=300&width=400&text=HP+Pavilion+15",
-      price: "Desde $25.000/mes",
       specs: {
         screen: "15.6 pulgadas",
         processor: "Intel Core i7-1165G7",
@@ -134,7 +129,6 @@ export default function CatalogoPage() {
       name: "HP EliteBook 840 G9",
       brand: "HP",
       image: "/placeholder.svg?height=300&width=400&text=HP+EliteBook",
-      price: "Desde $38.000/mes",
       specs: {
         screen: "14 pulgadas",
         processor: "Intel Core i7-1255U",
@@ -155,7 +149,6 @@ export default function CatalogoPage() {
       name: "Lenovo ThinkPad X1 Carbon",
       brand: "Lenovo",
       image: "/placeholder.svg?height=300&width=400&text=ThinkPad+X1",
-      price: "Desde $48.000/mes",
       specs: {
         screen: "14 pulgadas",
         processor: "Intel Core i7-1255U",
@@ -176,7 +169,6 @@ export default function CatalogoPage() {
       name: "Lenovo Legion 5 Pro",
       brand: "Lenovo",
       image: "/placeholder.svg?height=300&width=400&text=Legion+5+Pro",
-      price: "Desde $45.000/mes",
       specs: {
         screen: "16 pulgadas",
         processor: "AMD Ryzen 7 6800H",
@@ -197,7 +189,6 @@ export default function CatalogoPage() {
       name: "Dell XPS 13 Plus",
       brand: "Dell",
       image: "/placeholder.svg?height=300&width=400&text=Dell+XPS+13",
-      price: "Desde $42.000/mes",
       specs: {
         screen: "13.4 pulgadas",
         processor: "Intel Core i7-1260P",
@@ -218,7 +209,6 @@ export default function CatalogoPage() {
       name: "Dell Latitude 7430",
       brand: "Dell",
       image: "/placeholder.svg?height=300&width=400&text=Dell+Latitude",
-      price: "Desde $35.000/mes",
       specs: {
         screen: "14 pulgadas",
         processor: "Intel Core i7-1255U",
@@ -239,7 +229,6 @@ export default function CatalogoPage() {
       name: "ASUS ZenBook Pro 15",
       brand: "ASUS",
       image: "/placeholder.svg?height=300&width=400&text=ASUS+ZenBook",
-      price: "Desde $40.000/mes",
       specs: {
         screen: "15.6 pulgadas",
         processor: "Intel Core i7-11800H",
@@ -260,7 +249,6 @@ export default function CatalogoPage() {
       name: "Microsoft Surface Laptop 5",
       brand: "Microsoft",
       image: "/placeholder.svg?height=300&width=400&text=Surface+Laptop",
-      price: "Desde $38.000/mes",
       specs: {
         screen: "13.5 pulgadas",
         processor: "Intel Core i7-1255U",
@@ -306,13 +294,6 @@ export default function CatalogoPage() {
       case "brand":
         filtered.sort((a, b) => a.brand.localeCompare(b.brand))
         break
-      case "price":
-        filtered.sort((a, b) => {
-          const priceA = Number.parseInt(a.price.match(/\d+/)?.[0] || "0")
-          const priceB = Number.parseInt(b.price.match(/\d+/)?.[0] || "0")
-          return priceA - priceB
-        })
-        break
     }
 
     return filtered
@@ -320,6 +301,8 @@ export default function CatalogoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {<SocialNetworks />}
+      {/* Page Title */}
       {<Header />}
 
       {/* Page Header */}
@@ -452,7 +435,6 @@ export default function CatalogoPage() {
                     setSelectedBrand("all")
                     setSelectedRAM("all")
                     setSelectedProcessor("all")
-                    setPriceRange("all")
                     setSortBy("featured")
                     setViewMode("grid")
                   }}
@@ -491,7 +473,6 @@ export default function CatalogoPage() {
                     <SelectItem value="featured">Destacados</SelectItem>
                     <SelectItem value="name">Nombre A-Z</SelectItem>
                     <SelectItem value="brand">Marca</SelectItem>
-                    <SelectItem value="price">Precio</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -578,7 +559,6 @@ export default function CatalogoPage() {
                       </div>
 
                       <div className="flex items-center justify-between mb-4">
-                        <div className="text-2xl font-bold text-blue-600">{laptop.price}</div>
                         <Badge className="bg-green-100 text-green-800">{laptop.availability}</Badge>
                       </div>
 

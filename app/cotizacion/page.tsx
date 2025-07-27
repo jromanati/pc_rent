@@ -27,14 +27,12 @@ import {
   Search,
   Filter,
   ExternalLink,
-  MapPin,
-  Mail,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useMemo, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { MobileNav } from "@/components/mobile-nav"
+import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
@@ -46,7 +44,6 @@ export default function CotizacionPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedBrand, setSelectedBrand] = useState("all")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [priceRange, setPriceRange] = useState("all")
   const [activeTab, setActiveTab] = useState("all")
 
   const [clientData, setClientData] = useState({
@@ -69,7 +66,6 @@ export default function CotizacionPage() {
       name: "Apple MacBook Air M3",
       brand: "Apple",
       image: "/placeholder.svg?height=150&width=200&text=MacBook+Air+M3",
-      pricePerMonth: 45000,
       specs: {
         processor: "Apple M3 8-core",
         ram: "16GB",
@@ -85,7 +81,6 @@ export default function CotizacionPage() {
       name: "Apple MacBook Pro M3",
       brand: "Apple",
       image: "/placeholder.svg?height=150&width=200&text=MacBook+Pro+M3",
-      pricePerMonth: 55000,
       specs: {
         processor: "Apple M3 Pro",
         ram: "32GB",
@@ -101,7 +96,6 @@ export default function CotizacionPage() {
       name: "Acer Aspire Lite Ryzen 7",
       brand: "Acer",
       image: "/placeholder.svg?height=150&width=200&text=Acer+Aspire+Lite",
-      pricePerMonth: 28000,
       specs: {
         processor: "AMD Ryzen 7 5700U",
         ram: "32GB",
@@ -117,7 +111,6 @@ export default function CotizacionPage() {
       name: "HP Pavilion 15-Eg0522La",
       brand: "HP",
       image: "/placeholder.svg?height=150&width=200&text=HP+Pavilion+15",
-      pricePerMonth: 25000,
       specs: {
         processor: "Intel Core i7-1165G7",
         ram: "16GB",
@@ -133,7 +126,6 @@ export default function CotizacionPage() {
       name: "Lenovo ThinkPad X1 Carbon",
       brand: "Lenovo",
       image: "/placeholder.svg?height=150&width=200&text=ThinkPad+X1",
-      pricePerMonth: 48000,
       specs: {
         processor: "Intel Core i7-1255U",
         ram: "32GB",
@@ -149,7 +141,6 @@ export default function CotizacionPage() {
       name: "Dell XPS 13 Plus",
       brand: "Dell",
       image: "/placeholder.svg?height=150&width=200&text=Dell+XPS+13",
-      pricePerMonth: 42000,
       specs: {
         processor: "Intel Core i7-1260P",
         ram: "32GB",
@@ -165,7 +156,6 @@ export default function CotizacionPage() {
       name: "Acer Predator Helios 300",
       brand: "Acer",
       image: "/placeholder.svg?height=150&width=200&text=Acer+Predator",
-      pricePerMonth: 42000,
       specs: {
         processor: "Intel Core i7-12700H",
         ram: "32GB",
@@ -181,7 +171,6 @@ export default function CotizacionPage() {
       name: "HP EliteBook 840 G9",
       brand: "HP",
       image: "/placeholder.svg?height=150&width=200&text=HP+EliteBook",
-      pricePerMonth: 38000,
       specs: {
         processor: "Intel Core i7-1255U",
         ram: "32GB",
@@ -197,7 +186,6 @@ export default function CotizacionPage() {
       name: "Lenovo Legion 5 Pro",
       brand: "Lenovo",
       image: "/placeholder.svg?height=150&width=200&text=Legion+5+Pro",
-      pricePerMonth: 45000,
       specs: {
         processor: "AMD Ryzen 7 6800H",
         ram: "32GB",
@@ -213,7 +201,6 @@ export default function CotizacionPage() {
       name: "ASUS ZenBook Pro 15",
       brand: "ASUS",
       image: "/placeholder.svg?height=150&width=200&text=ASUS+ZenBook",
-      pricePerMonth: 40000,
       specs: {
         processor: "Intel Core i7-11800H",
         ram: "32GB",
@@ -229,7 +216,6 @@ export default function CotizacionPage() {
       name: "Microsoft Surface Laptop 5",
       brand: "Microsoft",
       image: "/placeholder.svg?height=150&width=200&text=Surface+Laptop",
-      pricePerMonth: 38000,
       specs: {
         processor: "Intel Core i7-1255U",
         ram: "32GB",
@@ -245,7 +231,6 @@ export default function CotizacionPage() {
       name: "Dell Latitude 7430",
       brand: "Dell",
       image: "/placeholder.svg?height=150&width=200&text=Dell+Latitude",
-      pricePerMonth: 35000,
       specs: {
         processor: "Intel Core i7-1255U",
         ram: "16GB",
@@ -289,24 +274,7 @@ export default function CotizacionPage() {
       const matchesBrand = selectedBrand === "all" || laptop.brand === selectedBrand
       const matchesCategory = selectedCategory === "all" || laptop.category === selectedCategory
       const matchesTab = activeTab === "all" || laptop.category === activeTab
-
-      let matchesPrice = true
-      if (priceRange !== "all") {
-        const price = laptop.pricePerMonth
-        switch (priceRange) {
-          case "low":
-            matchesPrice = price < 30000
-            break
-          case "medium":
-            matchesPrice = price >= 30000 && price < 45000
-            break
-          case "high":
-            matchesPrice = price >= 45000
-            break
-        }
-      }
-
-      return matchesSearch && matchesBrand && matchesCategory && matchesTab && matchesPrice
+      return matchesSearch && matchesBrand && matchesCategory && matchesTab 
     })
 
     // Si hay un producto pre-seleccionado, ponerlo primero en la lista
@@ -319,7 +287,7 @@ export default function CotizacionPage() {
     }
 
     return filtered
-  }, [searchTerm, selectedBrand, selectedCategory, activeTab, priceRange, preSelectedProductId])
+  }, [searchTerm, selectedBrand, selectedCategory, activeTab, preSelectedProductId])
 
   const handleProductSelect = (productId: number, quantity: number) => {
     if (quantity === 0) {
@@ -335,17 +303,10 @@ export default function CotizacionPage() {
     const duration = Number.parseInt(clientData.duracionArriendo) || 1
     return Object.entries(selectedProducts).reduce((total, [productId, quantity]) => {
       const product = allLaptops.find((p) => p.id === Number.parseInt(productId))
-      return total + (product?.pricePerMonth || 0) * quantity * duration
+      return total + (0) * quantity * duration
     }, 0)
   }
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("es-CL", {
-      style: "currency",
-      currency: "CLP",
-      minimumFractionDigits: 0,
-    }).format(price)
-  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -360,7 +321,6 @@ export default function CotizacionPage() {
     setSearchTerm("")
     setSelectedBrand("all")
     setSelectedCategory("all")
-    setPriceRange("all")
     setActiveTab("all")
   }
 
@@ -371,6 +331,7 @@ export default function CotizacionPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
 
@@ -623,17 +584,6 @@ export default function CotizacionPage() {
                           ))}
                         </SelectContent>
                       </Select>
-                      <Select value={priceRange} onValueChange={setPriceRange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Precio" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Todos los precios</SelectItem>
-                          <SelectItem value="low">Hasta $30.000</SelectItem>
-                          <SelectItem value="medium">$30.000 - $45.000</SelectItem>
-                          <SelectItem value="high">Más de $45.000</SelectItem>
-                        </SelectContent>
-                      </Select>
                       <Button variant="outline" onClick={clearFilters} className="bg-transparent">
                         <Filter className="h-4 w-4 mr-2" />
                         Limpiar
@@ -705,12 +655,6 @@ export default function CotizacionPage() {
                                     {laptop.featured && <Badge className="text-xs bg-blue-600">Destacado</Badge>}
                                   </div>
                                   <p className="text-xs text-gray-600 mt-1 line-clamp-1">{laptop.description}</p>
-                                </div>
-                                <div className="text-right flex-shrink-0 ml-4">
-                                  <div className="text-lg font-bold text-blue-600">
-                                    {formatPrice(laptop.pricePerMonth)}
-                                  </div>
-                                  <div className="text-xs text-gray-500">por mes</div>
                                 </div>
                               </div>
 
@@ -820,9 +764,6 @@ export default function CotizacionPage() {
                                   <Badge className="bg-green-500 text-white text-xs">✓ Pre-seleccionado</Badge>
                                 )}
                               </div>
-                              <p className="text-xs text-gray-600">
-                                {formatPrice(product.pricePerMonth)}/mes × {quantity}
-                              </p>
                             </div>
                             <Button
                               type="button"
@@ -838,18 +779,7 @@ export default function CotizacionPage() {
 
                       <Separator />
 
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span>Subtotal mensual:</span>
-                          <span>
-                            {formatPrice(
-                              Object.entries(selectedProducts).reduce((total, [productId, quantity]) => {
-                                const product = allLaptops.find((p) => p.id === Number.parseInt(productId))
-                                return total + (product?.pricePerMonth || 0) * quantity
-                              }, 0),
-                            )}
-                          </span>
-                        </div>
+                      <div className="space-y-2">                        
                         <div className="flex justify-between text-sm">
                           <span>Duración:</span>
                           <span>{clientData.duracionArriendo || "1"} mes(es)</span>
@@ -859,17 +789,9 @@ export default function CotizacionPage() {
                           <span>{selectedProductsCount} unidad(es)</span>
                         </div>
                       </div>
-
                       <Separator />
-
-                      <div className="flex justify-between font-bold text-lg">
-                        <span>Total:</span>
-                        <span className="text-blue-600">{formatPrice(calculateTotal())}</span>
-                      </div>
-
                       <div className="text-xs text-gray-500 space-y-1">
                         <p>• Incluye soporte técnico 24/7</p>
-                        <p>• Entrega e instalación gratuita</p>
                         <p>• Equipos de reemplazo inmediato</p>
                         <p>• Precios sujetos a confirmación</p>
                       </div>

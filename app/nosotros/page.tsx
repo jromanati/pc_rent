@@ -22,6 +22,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
@@ -109,12 +110,19 @@ export default function NosotrosPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20">
-        <div className="container mx-auto px-4">
+      <section
+        className="relative bg-cover bg-center bg-no-repeat text-white py-20"
+        style={{ backgroundImage: "url('/images/quienes_somos_1.png')" }}
+      >
+        {/* Overlay oscuro para mejorar contraste */}
+        <div className="absolute inset-0 bg-blue-900/70 backdrop-brightness-75"></div>
+
+        <div className="relative z-10 container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <Badge className="mb-6 bg-blue-500 text-white hover:bg-blue-500">
@@ -126,7 +134,7 @@ export default function NosotrosPage() {
                 Especialistas en arriendo de equipos tecnológicos de última generación, con enfoque en laptops y
                 notebooks para empresas en Santiago de Chile.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/cotizacion">
                   <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
                     Solicitar Cotización
@@ -141,31 +149,12 @@ export default function NosotrosPage() {
                     Ver Catálogo
                   </Button>
                 </Link>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="relative z-10">
-                <Image
-                  src="/images/quienes_somos_1.png?height=500&width=600&text=Equipo+Profesional+PC+Rent"
-                  alt="Equipo Soluciones PC Rent"
-                  width={600}
-                  height={500}
-                  className="rounded-2xl shadow-2xl"
-                />
-              </div>
-              <div className="absolute -bottom-6 -left-6 bg-white/10 backdrop-blur rounded-xl p-4">
-                <div className="flex items-center gap-3">
-                  <Award className="h-6 w-6 text-white" />
-                  <div>
-                    <p className="font-semibold text-white">5+ Años</p>
-                    <p className="text-sm text-blue-100">de Experiencia</p>
-                  </div>
-                </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Stats Section */}
       <section className="py-16 bg-gray-50">
@@ -190,9 +179,9 @@ export default function NosotrosPage() {
       {/* About Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid gap-16 items-center">
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 text-center">
                 Nuestra Misión: Resolver sus Necesidades Informáticas
               </h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
@@ -214,15 +203,7 @@ export default function NosotrosPage() {
                 </p>
               </div>
             </div>
-            <div className="relative mx-auto">
-              <Image
-                src="/images/logo-complete.png?height=400&width=500&text=Oficina+Santiago+Chile"
-                alt="Oficina en Santiago"
-                width={500}
-                height={400}
-                className="rounded-2xl shadow-xl"
-              />
-            </div>
+            
           </div>
         </div>
       </section>

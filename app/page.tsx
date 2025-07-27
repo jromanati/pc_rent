@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import Header from "@/components/header"
+import SocialNetworks from "@/components/rrss"
+import Footer from "@/components/footer"
 import {
   Laptop,
   Clock,
@@ -22,10 +25,8 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { MobileNav } from "@/components/mobile-nav"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 
 export default function HomePage() {
   const laptops = [
@@ -33,7 +34,7 @@ export default function HomePage() {
       id: 1,
       name: "Apple MacBook Air M3",
       brand: "Apple",
-      image: "/images/mac_mr.jpg?height=300&width=400",
+      image: "/placeholder.svg?height=300&width=400",
       specs: {
         screen: "15.3 pulgadas",
         processor: "8 núcleos (4 rendimiento + 4 eficiencia)",
@@ -142,50 +143,59 @@ export default function HomePage() {
     const slides = [
       {
         id: 1,
-        title: "Tecnología de Vanguardia",
-        subtitle: "Apple MacBook Air M3",
+        title: "Especialistas en Tecnología Corporativa",
+        subtitle: "Más de 5 años transformando empresas",
         description:
-          "Potencia y eficiencia en un diseño ultradelgado. Ideal para profesionales que no comprometen el rendimiento.",
-        image: "/images/mac_mr.jpg?height=600&width=800&text=MacBook+Air+M3",
-        specs: ["Chip M3 de 8 núcleos", "16GB RAM", "512GB SSD", 'Pantalla 15.3"'],
-        cta: "Solicitar MacBook",
-        bgGradient: "from-slate-900 via-purple-900 to-slate-900",
-        featured: true,
+          "Somos líderes en arriendo de equipos tecnológicos en Santiago. Ayudamos a empresas a optimizar sus recursos y acceder a la mejor tecnología sin grandes inversiones.",
+        image: "/images/home1.png?height=1080&width=1920&text=Oficina+Moderna+Tecnología",
+        features: ["500+ Empresas Atendidas", "Soporte 24/7", "Entrega Inmediata", "Equipos Certificados"],
+        cta: "Conocer Más",
       },
       {
         id: 2,
-        title: "Máximo Rendimiento",
-        subtitle: "Acer Aspire Lite Ryzen 7",
+        title: "Tu Socio Estratégico en Innovación",
+        subtitle: "Soluciones integrales para tu empresa",
         description:
-          "32GB de RAM y procesador AMD Ryzen 7. La potencia que su empresa necesita para cualquier desafío.",
-        image: "/placeholder.svg?height=600&width=800&text=Acer+Aspire+Lite",
-        specs: ["AMD Ryzen 7 5700U", "32GB RAM", "512GB SSD", "Solo 1.7kg"],
-        cta: "Ver Acer Aspire",
-        bgGradient: "from-blue-900 via-blue-800 to-indigo-900",
+          "No solo arrendamos equipos, creamos soluciones. Nuestro equipo de expertos diseña estrategias tecnológicas que impulsan el crecimiento de tu negocio.",
+        image: "/images/home2.png?height=1080&width=1920&text=Equipo+Profesional+Trabajando",
+        features: [
+          "Asesoría Personalizada",
+          "Configuración Incluida",
+          "Mantenimiento Total",
+          "Actualización Constante",
+        ],
+        cta: "Ver Servicios",
       },
       {
         id: 3,
-        title: "Versatilidad Empresarial",
-        subtitle: "HP Pavilion 15",
-        description: "Intel Core i7 con Turbo Boost. Perfecto para equipos que demandan versatilidad y potencia.",
-        image: "/placeholder.svg?height=600&width=800&text=HP+Pavilion+15",
-        specs: ["Intel i7-1165G7", "16GB RAM", "512GB SSD", "Turbo Boost 4.7GHz"],
-        cta: "Cotizar HP",
-        bgGradient: "from-emerald-900 via-teal-800 to-cyan-900",
+        title: "Compromiso con la Excelencia",
+        subtitle: "Calidad garantizada en cada servicio",
+        description:
+          "Trabajamos exclusivamente con las mejores marcas del mercado. Cada equipo pasa por rigurosos controles de calidad antes de llegar a tu empresa.",
+        image: "/images/home3.png?height=1080&width=1920&text=Laboratorio+Calidad+Equipos",
+        features: ["Marcas Premium", "Control de Calidad", "Garantía Extendida", "Certificaciones ISO"],
+        cta: "Ver Catálogo",
       },
       {
         id: 4,
-        title: "Soluciones Integrales",
-        subtitle: "Arriendo + Soporte 24/7",
+        title: "Innovación que Transforma",
+        subtitle: "Tecnología de vanguardia para tu éxito",
         description:
-          "No solo equipos. Ofrecemos una solución completa con soporte técnico, reemplazo inmediato y asesoría profesional.",
-        image: "/placeholder.svg?height=600&width=800&text=Soporte+24/7+Técnico",
-        specs: ["Soporte 24/7", "Reemplazo inmediato", "Asesoría incluida", "Entrega en 24hrs"],
-        cta: "Conocer Servicios",
-        bgGradient: "from-orange-900 via-red-800 to-pink-900",
-        isService: true,
+          "Desde startups hasta grandes corporaciones, proporcionamos la tecnología que necesitas para competir en el mercado actual y futuro.",
+        image: "/images/home4.png?height=1080&width=1920&text=Innovación+Tecnológica+Futuro",
+        features: ["Última Generación", "Escalabilidad Total", "Flexibilidad Máxima", "ROI Garantizado"],
+        cta: "Solicitar Demo",
       },
     ]
+
+    // Auto-advance slides
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length)
+      }, 10000) // Cambia cada 5 segundos
+
+      return () => clearInterval(timer)
+    }, [slides.length])
 
     const nextSlide = () => {
       setCurrentSlide((prev) => (prev + 1) % slides.length)
@@ -200,94 +210,40 @@ export default function HomePage() {
         {slides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`absolute inset-0 transition-transform duration-700 ease-in-out ${
-              index === currentSlide ? "translate-x-0" : index < currentSlide ? "-translate-x-full" : "translate-x-full"
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
-            <div className={`h-full bg-gradient-to-br ${slide.bgGradient} relative`}>
-              {/* Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=0 0 60 60 xmlns=http://www.w3.org/2000/svg%3E%3Cg fill=none fillRule=evenodd%3E%3Cg fill=%23ffffff fillOpacity=0.1%3E%3Ccircle cx=30 cy=30 r=2/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
-              </div>
+            {/* Background Image with Overlay */}
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url('${slide.image}')`,
+              }}
+            >
+              {/* Dark overlay for text readability */}
+              <div className="absolute inset-0 bg-black/60"></div>
 
-              <div className="container mx-auto px-4 h-full">
-                <div className="grid lg:grid-cols-2 gap-12 items-center h-full py-20">
-                  <div className="text-white z-10 relative">
-                    {slide.featured && (
-                      <Badge className="mb-4 bg-yellow-500 text-black hover:bg-yellow-500 animate-pulse">
-                        ⭐ Más Solicitado
-                      </Badge>
-                    )}
-                    {slide.isService && (
-                      <Badge className="mb-4 bg-green-500 text-white hover:bg-green-500">🛠️ Servicio Integral</Badge>
-                    )}
+              {/* Gradient overlay for better text contrast */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+            </div>
 
-                    <h1 className="text-5xl lg:text-7xl font-bold mb-4 leading-tight">{slide.title}</h1>
-                    <h2 className="text-2xl lg:text-3xl font-light mb-6 text-blue-200">{slide.subtitle}</h2>
-                    <p className="text-xl mb-8 leading-relaxed opacity-90 max-w-lg">{slide.description}</p>
-
-                    {/* Specs Grid */}
-                    <div className="grid grid-cols-2 gap-4 mb-8">
-                      {slide.specs.map((spec, specIndex) => (
-                        <div key={specIndex} className="flex items-center gap-2">
-                          <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                          <span className="text-sm font-medium">{spec}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <Link href={`/cotizacion?product=${slide.id || 1}`}>
-                        <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100 font-semibold">
-                          {slide.cta}
-                        </Button>
-                      </Link>
-                      <Link href="/catalogo">
-                        <Button
-                          size="lg"
-                          variant="outline"
-                          className="border-white text-white hover:bg-white hover:text-gray-900 bg-transparent"
-                        >
-                          Más Información
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-
-                  <div className="relative z-10">
-                    <div className="relative">
-                      <Image
-                        src={slide.image || "/placeholder.svg"}
-                        alt={slide.subtitle}
-                        width={800}
-                        height={600}
-                        className="rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
-                      />
-                      {/* Floating Stats */}
-                      <div className="absolute -bottom-6 -left-6 bg-white/95 backdrop-blur rounded-xl p-4 shadow-xl">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                            <Laptop className="h-6 w-6 text-blue-600" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-gray-900">Disponible Ya</p>
-                            <p className="text-sm text-gray-600">Entrega en 24hrs</p>
-                          </div>
-                        </div>
+            <div className="container mx-auto px-4 h-full relative z-10">
+              <div className="flex items-center h-full">
+                <div className="max-w-3xl text-white">
+                  <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">{slide.title}</h1>
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-light mb-8 text-blue-200 leading-relaxed">
+                    {slide.subtitle}
+                  </h2>
+                  <p className="text-lg md:text-xl mb-10 leading-relaxed opacity-90 max-w-2xl">{slide.description}</p>
+                  {/* Features Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+                    {slide.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center gap-2">
+                        <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
+                        <span className="text-sm font-medium">{feature}</span>
                       </div>
-
-                      <div className="absolute -top-6 -right-6 bg-white/95 backdrop-blur rounded-xl p-4 shadow-xl">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                            <Shield className="h-6 w-6 text-green-600" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-gray-900">Garantía Total</p>
-                            <p className="text-sm text-gray-600">Soporte 24/7</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -298,43 +254,37 @@ export default function HomePage() {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentSlide ? "bg-white scale-125" : "bg-white/50 hover:bg-white/75"
               }`}
             />
           ))}
         </div>
 
-        {/* Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-          <div
-            className="h-full bg-white transition-all duration-300 ease-linear"
-            style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
-          />
-        </div>
       </section>
     )
   }
 
   return (
     <div className="min-h-screen bg-white">
+      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
 
@@ -368,7 +318,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Products Section */}
+      {/* Featured Products Section 
       <section id="catalogo" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -435,7 +385,10 @@ export default function HomePage() {
                       <Button className="flex-1 bg-blue-600 hover:bg-blue-700">Solicitar Cotización</Button>
                     </Link>
                     <Link href={`/catalogo/${laptop.id}`}>
-                      <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent">
+                      <Button
+                        variant="outline"
+                        className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
+                      >
                         Más Info
                       </Button>
                     </Link>
@@ -445,7 +398,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* CTA to full catalog */}
           <div className="text-center">
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-blue-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">¿Necesitas ver más opciones?</h3>
@@ -463,7 +415,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
+      */}
       {/* Benefits Section */}
       <section id="beneficios" className="py-20 bg-white">
         <div className="container mx-auto px-4">
@@ -526,6 +478,15 @@ export default function HomePage() {
             <Link href="/cotizacion">
               <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
                 Solicitar Cotización Gratuita
+              </Button>
+            </Link>
+            <Link href="/nosotros">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-blue-600 bg-transparent"
+              >
+                Conocer Más Sobre Nosotros
               </Button>
             </Link>
           </div>
