@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import Header from "@/components/header"
 import SocialNetworks from "@/components/rrss"
 import Footer from "@/components/footer"
+import { WhatsAppButton } from "@/components/whatsapp-button"
 import {
   Laptop,
   Clock,
@@ -147,7 +148,7 @@ export default function HomePage() {
         subtitle: "Más de 5 años transformando empresas",
         description:
           "Somos líderes en arriendo de equipos tecnológicos en Santiago. Ayudamos a empresas a optimizar sus recursos y acceder a la mejor tecnología sin grandes inversiones.",
-        image: "/images/home1.png?height=1080&width=1920&text=Oficina+Moderna+Tecnología",
+        image: "/images/home1.png",
         features: ["500+ Empresas Atendidas", "Soporte 24/7", "Entrega Inmediata", "Equipos Certificados"],
         cta: "Conocer Más",
       },
@@ -157,7 +158,7 @@ export default function HomePage() {
         subtitle: "Soluciones integrales para tu empresa",
         description:
           "No solo arrendamos equipos, creamos soluciones. Nuestro equipo de expertos diseña estrategias tecnológicas que impulsan el crecimiento de tu negocio.",
-        image: "/images/home2.png?height=1080&width=1920&text=Equipo+Profesional+Trabajando",
+        image: "/images/home2.png",
         features: [
           "Asesoría Personalizada",
           "Configuración Incluida",
@@ -172,7 +173,7 @@ export default function HomePage() {
         subtitle: "Calidad garantizada en cada servicio",
         description:
           "Trabajamos exclusivamente con las mejores marcas del mercado. Cada equipo pasa por rigurosos controles de calidad antes de llegar a tu empresa.",
-        image: "/images/home3.png?height=1080&width=1920&text=Laboratorio+Calidad+Equipos",
+        image: "/images/home3.png",
         features: ["Marcas Premium", "Control de Calidad", "Garantía Extendida", "Certificaciones ISO"],
         cta: "Ver Catálogo",
       },
@@ -182,7 +183,7 @@ export default function HomePage() {
         subtitle: "Tecnología de vanguardia para tu éxito",
         description:
           "Desde startups hasta grandes corporaciones, proporcionamos la tecnología que necesitas para competir en el mercado actual y futuro.",
-        image: "/images/home4.png?height=1080&width=1920&text=Innovación+Tecnológica+Futuro",
+        image: "/images/home4.png",
         features: ["Última Generación", "Escalabilidad Total", "Flexibilidad Máxima", "ROI Garantizado"],
         cta: "Solicitar Demo",
       },
@@ -192,7 +193,7 @@ export default function HomePage() {
     useEffect(() => {
       const timer = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length)
-      }, 10000) // Cambia cada 5 segundos
+      }, 10000) // Cambia cada 10 segundos
 
       return () => clearInterval(timer)
     }, [slides.length])
@@ -230,54 +231,84 @@ export default function HomePage() {
 
             <div className="container mx-auto px-4 h-full relative z-10">
               <div className="flex items-center h-full">
-                <div className="max-w-3xl text-white">
-                  <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">{slide.title}</h1>
-                  <h2 className="text-xl md:text-2xl lg:text-3xl font-light mb-8 text-blue-200 leading-relaxed">
+                <div className="max-w-4xl text-white">
+                  {/* Title - Highly responsive */}
+                  <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 leading-tight">
+                    {slide.title}
+                  </h1>
+
+                  {/* Subtitle - Responsive */}
+                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-light mb-6 md:mb-8 text-blue-200 leading-relaxed">
                     {slide.subtitle}
                   </h2>
-                  <p className="text-lg md:text-xl mb-10 leading-relaxed opacity-90 max-w-2xl">{slide.description}</p>
-                  {/* Features Grid */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+
+                  {/* Description - Responsive with better mobile handling */}
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-10 leading-relaxed opacity-90 max-w-full md:max-w-2xl">
+                    {slide.description}
+                  </p>
+
+                  {/* Features Grid - Responsive layout */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-6 md:mb-10">
                     {slide.features.map((feature, featureIndex) => (
                       <div key={featureIndex} className="flex items-center gap-2">
-                        <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span className="text-sm font-medium">{feature}</span>
+                        <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-green-400 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm md:text-sm font-medium">{feature}</span>
                       </div>
                     ))}
                   </div>
+                  
                 </div>
               </div>
             </div>
           </div>
         ))}
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - Hidden on mobile */}
         <button
           onClick={prevSlide}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
+          className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110 hidden sm:flex"
         >
-          <ChevronLeft className="h-6 w-6" />
+          <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110"
+          className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 hover:scale-110 hidden sm:flex"
         >
-          <ChevronRight className="h-6 w-6" />
+          <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
         </button>
 
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+        {/* Slide Indicators - Responsive */}
+        <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2 md:gap-3">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
                 index === currentSlide ? "bg-white scale-125" : "bg-white/50 hover:bg-white/75"
               }`}
             />
           ))}
         </div>
 
+        {/* Progress Bar - Responsive */}
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 md:h-1 bg-white/20 z-20">
+          <div
+            className="h-full bg-blue-500 transition-all duration-300 ease-linear"
+            style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
+          />
+        </div>
+
+        {/* Mobile swipe indicators */}
+        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 sm:hidden">
+          <div className="flex items-center gap-2 bg-white/20 backdrop-blur rounded-full px-3 py-1 text-white text-xs">
+            <span>Desliza</span>
+            <div className="flex gap-1">
+              <div className="w-1 h-1 bg-white rounded-full animate-pulse"></div>
+              <div className="w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDelay: "0.2s" }}></div>
+              <div className="w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDelay: "0.4s" }}></div>
+            </div>
+          </div>
+        </div>
       </section>
     )
   }
@@ -495,6 +526,7 @@ export default function HomePage() {
 
       {/* Footer */}
       {<Footer />}
+      <WhatsAppButton />
     </div>
   )
 }

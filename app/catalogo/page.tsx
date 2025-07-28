@@ -13,6 +13,7 @@ import { useState, useMemo } from "react"
 import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { WhatsAppButton } from "@/components/whatsapp-button"
 
 export default function CatalogoPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -306,7 +307,7 @@ export default function CatalogoPage() {
       {<Header />}
 
       {/* Page Header */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <h1 className="text-4xl lg:text-5xl font-bold mb-4">Catálogo Completo</h1>
@@ -314,16 +315,16 @@ export default function CatalogoPage() {
               Explora nuestra amplia selección de equipos tecnológicos de última generación. Más de 15 modelos
               disponibles para arriendo empresarial.
             </p>
-            <div className="flex items-center gap-4 text-blue-100">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-blue-100 text-sm md:text-base">
+              <div className="flex items-center gap-2 w-full md:w-auto">
                 <Laptop className="h-5 w-5" />
                 <span>12+ Marcas</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 w-full md:w-auto">
                 <Star className="h-5 w-5" />
                 <span>Equipos Certificados</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 w-full md:w-auto">
                 <Badge className="bg-green-500">Disponible 24/7</Badge>
               </div>
             </div>
@@ -476,7 +477,7 @@ export default function CatalogoPage() {
                   </SelectContent>
                 </Select>
 
-                <div className="flex border rounded-lg">
+                <div className="flex border rounded-lg hidden md:flex">
                   <Button
                     variant={viewMode === "grid" ? "default" : "ghost"}
                     size="sm"
@@ -603,18 +604,10 @@ export default function CatalogoPage() {
           </div>
         </div>
       </div>
-      {/* Floating CTA */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <Link href="/cotizacion">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 shadow-lg rounded-full px-6">
-            <Calculator className="h-5 w-5 mr-2" />
-            Cotizar Ahora
-          </Button>
-        </Link>
-      </div>
 
       {/* Footer */}
       {<Footer />}
+      <WhatsAppButton />
     </div>
   )
 }

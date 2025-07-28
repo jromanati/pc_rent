@@ -32,9 +32,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState, useMemo, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { MobileNav } from "@/components/mobile-nav"
 import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { WhatsAppButton } from "@/components/whatsapp-button"
 
 export default function CotizacionPage() {
   const searchParams = useSearchParams()
@@ -274,7 +276,7 @@ export default function CotizacionPage() {
       const matchesBrand = selectedBrand === "all" || laptop.brand === selectedBrand
       const matchesCategory = selectedCategory === "all" || laptop.category === selectedCategory
       const matchesTab = activeTab === "all" || laptop.category === activeTab
-      return matchesSearch && matchesBrand && matchesCategory && matchesTab 
+      return matchesSearch && matchesBrand && matchesCategory && matchesTab
     })
 
     // Si hay un producto pre-seleccionado, ponerlo primero en la lista
@@ -299,13 +301,6 @@ export default function CotizacionPage() {
     }
   }
 
-  const calculateTotal = () => {
-    const duration = Number.parseInt(clientData.duracionArriendo) || 1
-    return Object.entries(selectedProducts).reduce((total, [productId, quantity]) => {
-      const product = allLaptops.find((p) => p.id === Number.parseInt(productId))
-      return total + (0) * quantity * duration
-    }, 0)
-  }
 
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -334,35 +329,38 @@ export default function CotizacionPage() {
       {<SocialNetworks />}
       {/* Header */}
       {<Header />}
+      
 
       {/* Page Header */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4">
               {preSelectedProduct ? `Cotizar ${preSelectedProduct.name}` : "Solicitar Cotización"}
             </h1>
-            <p className="text-xl opacity-90 mb-6">
+            <p className="text-lg md:text-xl opacity-90 mb-6">
               {preSelectedProduct
                 ? `Completa el formulario para cotizar el ${preSelectedProduct.name}. Puedes agregar más equipos si lo necesitas.`
                 : "Completa el formulario y selecciona los equipos que necesitas. Te enviaremos una cotización personalizada en menos de 24 horas."}
             </p>
-            <div className="flex items-center gap-6 text-blue-100">
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-blue-100 text-sm md:text-base">
               <div className="flex items-center gap-2">
-                <Calculator className="h-5 w-5" />
+                <Calculator className="h-4 w-4 md:h-5 md:w-5" />
                 <span>Cotización Gratuita</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5" />
+                <CheckCircle className="h-4 w-4 md:h-5 md:w-5" />
                 <span>Respuesta en 24hrs</span>
               </div>
               <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
+                <FileText className="h-4 w-4 md:h-5 md:w-5" />
                 <span>Sin Compromiso</span>
               </div>
               {preSelectedProduct && (
-                <div className="flex items-center gap-2">
-                  <Badge className="bg-green-500 text-white">✓ {preSelectedProduct.name} Pre-seleccionado</Badge>
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                  <Badge className="bg-green-500 text-white text-xs">
+                    ✓ {preSelectedProduct.name} Pre-seleccionado
+                  </Badge>
                 </div>
               )}
             </div>
@@ -370,11 +368,11 @@ export default function CotizacionPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-6 md:py-8">
         <form onSubmit={handleSubmit}>
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
             {/* Client Information */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="lg:col-span-2 space-y-6 md:space-y-8">
               {/* Personal Data */}
               <Card>
                 <CardHeader>
@@ -384,7 +382,7 @@ export default function CotizacionPage() {
                   </CardTitle>
                   <CardDescription>Completa tus datos para generar la cotización</CardDescription>
                 </CardHeader>
-                <CardContent className="grid md:grid-cols-2 gap-4">
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="nombre">Nombre Completo *</Label>
                     <Input
@@ -544,8 +542,8 @@ export default function CotizacionPage() {
                     <Laptop className="h-5 w-5" />
                     {preSelectedProduct ? "Agregar Más Equipos" : "Seleccionar Equipos"}
                   </CardTitle>
-                  <CardDescription className="flex items-center justify-between">
-                    <span>
+                  <CardDescription className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <span className="text-sm">
                       {preSelectedProduct
                         ? `${preSelectedProduct.name} ya está seleccionado. Puedes agregar más equipos si lo necesitas.`
                         : "Elige los equipos que necesitas para tu cotización"}
@@ -561,7 +559,7 @@ export default function CotizacionPage() {
                 <CardContent>
                   {/* Filters */}
                   <div className="mb-6 space-y-4">
-                    <div className="grid md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                         <Input
@@ -583,7 +581,7 @@ export default function CotizacionPage() {
                             </SelectItem>
                           ))}
                         </SelectContent>
-                      </Select>
+                      </Select>                      
                       <Button variant="outline" onClick={clearFilters} className="bg-transparent">
                         <Filter className="h-4 w-4 mr-2" />
                         Limpiar
@@ -593,11 +591,15 @@ export default function CotizacionPage() {
 
                   {/* Category Tabs */}
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-                    <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
+                    <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 h-auto">
                       {categories.map((category) => (
-                        <TabsTrigger key={category.value} value={category.value} className="text-xs">
-                          {category.label}
-                          <Badge variant="secondary" className="ml-1 text-xs">
+                        <TabsTrigger
+                          key={category.value}
+                          value={category.value}
+                          className="text-xs p-2 h-auto flex flex-col sm:flex-row items-center gap-1"
+                        >
+                          <span className="truncate">{category.label}</span>
+                          <Badge variant="secondary" className="text-xs px-1 py-0">
                             {category.count}
                           </Badge>
                         </TabsTrigger>
@@ -622,9 +624,9 @@ export default function CotizacionPage() {
                         return (
                           <div
                             key={laptop.id}
-                            className={`flex items-center gap-4 p-4 border rounded-lg hover:bg-gray-50 transition-colors ${
+                            className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border rounded-lg hover:bg-gray-50 transition-colors ${
                               selectedProducts[laptop.id] ? "border-blue-500 bg-blue-50" : "border-gray-200"
-                            } ${isPreSelected ? "ring-2 ring-blue-300" : ""}`}
+                            } ${isPreSelected ? "ring-2 ring-blue-300" : ""} relative`}
                           >
                             {isPreSelected && (
                               <div className="absolute -top-2 -left-2">
@@ -632,7 +634,7 @@ export default function CotizacionPage() {
                               </div>
                             )}
 
-                            <div className="w-20 h-16 relative flex-shrink-0">
+                            <div className="w-full sm:w-20 h-16 relative flex-shrink-0">
                               <Image
                                 src={laptop.image || "/placeholder.svg"}
                                 alt={laptop.name}
@@ -641,11 +643,11 @@ export default function CotizacionPage() {
                               />
                             </div>
 
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-start justify-between">
-                                <div>
+                            <div className="flex-1 min-w-0 w-full">
+                              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                                <div className="flex-1">
                                   <h3 className="font-semibold text-sm">{laptop.name}</h3>
-                                  <div className="flex items-center gap-2 mt-1">
+                                  <div className="flex flex-wrap items-center gap-2 mt-1">
                                     <Badge variant="outline" className="text-xs">
                                       {laptop.brand}
                                     </Badge>
@@ -658,8 +660,8 @@ export default function CotizacionPage() {
                                 </div>
                               </div>
 
-                              <div className="flex items-center justify-between mt-3">
-                                <div className="text-xs text-gray-600 space-x-4">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 gap-3">
+                                <div className="text-xs text-gray-600 space-y-1 sm:space-y-0 sm:space-x-4 sm:flex">
                                   <span>
                                     <strong>CPU:</strong> {laptop.specs.processor}
                                   </span>
@@ -671,7 +673,7 @@ export default function CotizacionPage() {
                                   </span>
                                 </div>
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2 justify-end">
                                   <Button
                                     type="button"
                                     variant="outline"
@@ -706,7 +708,7 @@ export default function CotizacionPage() {
                                     variant={selectedProducts[laptop.id] ? "default" : "outline"}
                                     size="sm"
                                     onClick={() => handleProductSelect(laptop.id, selectedProducts[laptop.id] ? 0 : 1)}
-                                    className="ml-2"
+                                    className="ml-2 text-xs px-3"
                                   >
                                     {selectedProducts[laptop.id] ? "Seleccionado" : "Seleccionar"}
                                   </Button>
@@ -757,19 +759,20 @@ export default function CotizacionPage() {
                               isPreSelected ? "bg-green-50 border border-green-200" : "bg-gray-50"
                             }`}
                           >
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
-                                <h4 className="font-medium text-sm">{product.name}</h4>
+                                <h4 className="font-medium text-sm truncate">{product.name}</h4>
                                 {isPreSelected && (
-                                  <Badge className="bg-green-500 text-white text-xs">✓ Pre-seleccionado</Badge>
+                                  <Badge className="bg-green-500 text-white text-xs flex-shrink-0">✓</Badge>
                                 )}
-                              </div>
+                              </div>                              
                             </div>
                             <Button
                               type="button"
                               variant="ghost"
                               size="sm"
                               onClick={() => handleProductSelect(product.id, 0)}
+                              className="flex-shrink-0 ml-2"
                             >
                               <X className="h-4 w-4" />
                             </Button>
@@ -779,7 +782,7 @@ export default function CotizacionPage() {
 
                       <Separator />
 
-                      <div className="space-y-2">                        
+                      <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span>Duración:</span>
                           <span>{clientData.duracionArriendo || "1"} mes(es)</span>
@@ -789,6 +792,7 @@ export default function CotizacionPage() {
                           <span>{selectedProductsCount} unidad(es)</span>
                         </div>
                       </div>
+
                       <Separator />
                       <div className="text-xs text-gray-500 space-y-1">
                         <p>• Incluye soporte técnico 24/7</p>
@@ -820,9 +824,9 @@ export default function CotizacionPage() {
           </div>
         </form>
       </div>
-
       {/* Footer */}
       {<Footer />}
+      {<WhatsAppButton />}
     </div>
   )
 }

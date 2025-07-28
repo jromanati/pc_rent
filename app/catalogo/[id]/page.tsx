@@ -29,6 +29,7 @@ import { useParams } from "next/navigation"
 import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { WhatsAppButton } from "@/components/whatsapp-button"
 
 export default function ProductDetailPage() {
   const params = useParams()
@@ -134,7 +135,13 @@ export default function ProductDetailPage() {
     )
   }
 
-  
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("es-CL", {
+      style: "currency",
+      currency: "CLP",
+      minimumFractionDigits: 0,
+    }).format(price)
+  }
 
   const relatedProducts = allLaptops
     .filter((p) => p.id !== productId && (p.brand === product.brand || p.category === product.category))
@@ -145,6 +152,7 @@ export default function ProductDetailPage() {
       {<SocialNetworks />}
       {/* Header */}
       {<Header />}
+      
 
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
@@ -158,12 +166,12 @@ export default function ProductDetailPage() {
               Catálogo
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <span className="text-gray-900 font-medium">{product.name}</span>
+            <span className="text-gray-900 font-medium truncate">{product.name}</span>
           </nav>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-6 md:py-8">
         {/* Back Button */}
         <div className="mb-6">
           <Link href="/catalogo">
@@ -174,7 +182,7 @@ export default function ProductDetailPage() {
           </Link>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 mb-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-8 lg:mb-12">
           {/* Product Images */}
           <div className="space-y-4">
             <div className="aspect-square relative overflow-hidden rounded-2xl bg-white shadow-lg">
@@ -209,20 +217,20 @@ export default function ProductDetailPage() {
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <div className="flex items-center gap-3 mb-2">
+              <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-2">
                 <Badge variant="outline" className="text-blue-600 border-blue-600">
                   {product.brand}
                 </Badge>
                 <Badge variant="secondary">{product.category}</Badge>
                 {product.inStock && <Badge className="bg-green-100 text-green-800">En Stock</Badge>}
               </div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
-              <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`h-5 w-5 ${
+                      className={`h-4 w-4 md:h-5 md:w-5 ${
                         i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
                       }`}
                     />
@@ -232,66 +240,84 @@ export default function ProductDetailPage() {
                   </span>
                 </div>
               </div>
-              <p className="text-lg text-gray-600 leading-relaxed">{product.description}</p>
+              <p className="text-base md:text-lg text-gray-600 leading-relaxed">{product.description}</p>
             </div>
 
             {/* Pricing */}
-            <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+            <div className="bg-blue-50 rounded-2xl p-4 md:p-6 border border-blue-100">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+                <div>
+                  <div className="text-2xl md:text-3xl font-bold text-blue-600">
+                    {formatPrice(product.pricePerMonth)}
+                  </div>
+                  <div className="text-sm text-gray-600">por mes</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-gray-500 line-through">{formatPrice(product.originalPrice)}</div>
+                  <div className="text-sm text-green-600 font-medium">Precio de compra</div>
+                </div>
+              </div>
               <div className="text-sm text-gray-600 space-y-1">
                 <p>• Incluye soporte técnico 24/7</p>
+                <p>• Entrega e instalación gratuita</p>
                 <p>• Equipos de reemplazo inmediato</p>
+                <p>• Sin compromiso de permanencia</p>
               </div>
             </div>
 
             {/* Quick Specs */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex items-center gap-3 p-3 bg-white rounded-lg border">
-                <Cpu className="h-6 w-6 text-blue-600" />
-                <div>
+                <Cpu className="h-5 w-5 md:h-6 md:w-6 text-blue-600 flex-shrink-0" />
+                <div className="min-w-0">
                   <div className="text-sm text-gray-600">Procesador</div>
-                  <div className="font-medium">{product.specs.processor}</div>
+                  <div className="font-medium text-sm md:text-base truncate">{product.specs.processor}</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-white rounded-lg border">
-                <Zap className="h-6 w-6 text-blue-600" />
-                <div>
+                <Zap className="h-5 w-5 md:h-6 md:w-6 text-blue-600 flex-shrink-0" />
+                <div className="min-w-0">
                   <div className="text-sm text-gray-600">Memoria RAM</div>
-                  <div className="font-medium">{product.specs.ram}</div>
+                  <div className="font-medium text-sm md:text-base">{product.specs.ram}</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-white rounded-lg border">
-                <HardDrive className="h-6 w-6 text-blue-600" />
-                <div>
+                <HardDrive className="h-5 w-5 md:h-6 md:w-6 text-blue-600 flex-shrink-0" />
+                <div className="min-w-0">
                   <div className="text-sm text-gray-600">Almacenamiento</div>
-                  <div className="font-medium">{product.specs.storage}</div>
+                  <div className="font-medium text-sm md:text-base">{product.specs.storage}</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-white rounded-lg border">
-                <Monitor className="h-6 w-6 text-blue-600" />
-                <div>
+                <Monitor className="h-5 w-5 md:h-6 md:w-6 text-blue-600 flex-shrink-0" />
+                <div className="min-w-0">
                   <div className="text-sm text-gray-600">Pantalla</div>
-                  <div className="font-medium">{product.specs.screen}</div>
+                  <div className="font-medium text-sm md:text-base">{product.specs.screen}</div>
                 </div>
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="space-y-4">
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Link href={`/cotizacion?product=${product.id}`} className="flex-1">
                   <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700">
-                    <Calculator className="h-5 w-5 mr-2" />
+                    <Calculator className="h-4 w-4 md:h-5 md:w-5 mr-2" />
                     Solicitar Cotización
                   </Button>
                 </Link>
-                <Button size="lg" variant="outline" className="bg-transparent">
-                  <Heart className="h-5 w-5" />
-                </Button>
-                <Button size="lg" variant="outline" className="bg-transparent">
-                  <Share2 className="h-5 w-5" />
-                </Button>
+                <div className="flex gap-2">
+                  <Button size="lg" variant="outline" className="bg-transparent flex-1 sm:flex-none">
+                    <Heart className="h-4 w-4 md:h-5 md:w-5" />
+                    <span className="sm:hidden ml-2">Favorito</span>
+                  </Button>
+                  <Button size="lg" variant="outline" className="bg-transparent flex-1 sm:flex-none">
+                    <Share2 className="h-4 w-4 md:h-5 md:w-5" />
+                    <span className="sm:hidden ml-2">Compartir</span>
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center justify-center gap-6 text-sm text-gray-600">
+              <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <Truck className="h-4 w-4" />
                   <span>Entrega en {product.deliveryTime}</span>
@@ -310,109 +336,137 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Detailed Information Tabs */}
-        <Card className="mb-12">
+        <Card className="mb-8 lg:mb-12">
           <Tabs defaultValue="specs" className="w-full">
             <CardHeader>
-              <TabsList className="grid w-full grid-cols-5">
-                <TabsTrigger value="specs">Especificaciones</TabsTrigger>
-                <TabsTrigger value="features">Características</TabsTrigger>
-                <TabsTrigger value="benefits">Beneficios</TabsTrigger>
-                <TabsTrigger value="ideal">Ideal Para</TabsTrigger>
-                <TabsTrigger value="included">Incluye</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 h-auto">
+                <TabsTrigger value="specs" className="text-xs sm:text-sm p-2 sm:p-3">
+                  Especificaciones
+                </TabsTrigger>
+                <TabsTrigger value="features" className="text-xs sm:text-sm p-2 sm:p-3">
+                  Características
+                </TabsTrigger>
+                <TabsTrigger value="benefits" className="text-xs sm:text-sm p-2 sm:p-3">
+                  Beneficios
+                </TabsTrigger>
+                <TabsTrigger value="ideal" className="text-xs sm:text-sm p-2 sm:p-3">
+                  Ideal Para
+                </TabsTrigger>
+                <TabsTrigger value="included" className="text-xs sm:text-sm p-2 sm:p-3">
+                  Incluye
+                </TabsTrigger>
               </TabsList>
             </CardHeader>
             <CardContent>
               <TabsContent value="specs" className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Rendimiento</h3>
                     <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Procesador:</span>
-                        <span className="font-medium">{product.specs.processor}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Procesador:</span>
+                        <span className="font-medium text-right">{product.specs.processor}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Detalles CPU:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.processorDetails}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Detalles CPU:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.processorDetails}
+                        </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">GPU:</span>
-                        <span className="font-medium">{product.specs.gpu}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">GPU:</span>
+                        <span className="font-medium text-right">{product.specs.gpu}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Memoria RAM:</span>
-                        <span className="font-medium">{product.specs.ram}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Memoria RAM:</span>
+                        <span className="font-medium text-right">{product.specs.ram}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Tipo de RAM:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.ramType}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Tipo de RAM:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.ramType}
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Almacenamiento y Pantalla</h3>
                     <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Almacenamiento:</span>
-                        <span className="font-medium">{product.specs.storage}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Almacenamiento:</span>
+                        <span className="font-medium text-right">{product.specs.storage}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Tipo de SSD:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.storageType}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Tipo de SSD:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.storageType}
+                        </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Pantalla:</span>
-                        <span className="font-medium">{product.specs.screen}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Pantalla:</span>
+                        <span className="font-medium text-right">{product.specs.screen}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Resolución:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.resolution}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Resolución:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.resolution}
+                        </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Tipo de pantalla:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.screenType}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Tipo de pantalla:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.screenType}
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Conectividad</h3>
                     <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Puertos:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.connectivity}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Puertos:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.connectivity}
+                        </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Inalámbrico:</span>
-                        <span className="font-medium">{product.specs.wireless}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Inalámbrico:</span>
+                        <span className="font-medium text-right">{product.specs.wireless}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Cámara:</span>
-                        <span className="font-medium">{product.specs.camera}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Cámara:</span>
+                        <span className="font-medium text-right">{product.specs.camera}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Audio:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.audio}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Audio:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.audio}
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Diseño y Batería</h3>
                     <div className="space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Peso:</span>
-                        <span className="font-medium">{product.specs.weight}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Peso:</span>
+                        <span className="font-medium text-right">{product.specs.weight}</span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Dimensiones:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.dimensions}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Dimensiones:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.dimensions}
+                        </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Batería:</span>
-                        <span className="font-medium text-right max-w-[60%]">{product.specs.battery}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Batería:</span>
+                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
+                          {product.specs.battery}
+                        </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Sistema Operativo:</span>
-                        <span className="font-medium">{product.specs.os}</span>
+                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                        <span className="text-gray-600 font-medium">Sistema Operativo:</span>
+                        <span className="font-medium text-right">{product.specs.os}</span>
                       </div>
                     </div>
                   </div>
@@ -420,32 +474,32 @@ export default function ProductDetailPage() {
               </TabsContent>
 
               <TabsContent value="features" className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {product.features.map((feature, index) => (
                     <div key={index} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
                       <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{feature}</span>
+                      <span className="text-gray-700 text-sm md:text-base">{feature}</span>
                     </div>
                   ))}
                 </div>
               </TabsContent>
 
               <TabsContent value="benefits" className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {product.benefits.map((benefit, index) => (
                     <div
                       key={index}
                       className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border border-blue-100"
                     >
                       <CheckCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{benefit}</span>
+                      <span className="text-gray-700 text-sm md:text-base">{benefit}</span>
                     </div>
                   ))}
                 </div>
               </TabsContent>
 
               <TabsContent value="ideal" className="space-y-4">
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   {product.idealFor.map((user, index) => (
                     <div
                       key={index}
@@ -454,21 +508,21 @@ export default function ProductDetailPage() {
                       <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                         <Laptop className="h-6 w-6 text-blue-600" />
                       </div>
-                      <span className="font-medium text-gray-700">{user}</span>
+                      <span className="font-medium text-gray-700 text-sm md:text-base">{user}</span>
                     </div>
                   ))}
                 </div>
               </TabsContent>
 
               <TabsContent value="included" className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {product.included.map((item, index) => (
                     <div
                       key={index}
                       className="flex items-center gap-3 p-4 bg-green-50 rounded-lg border border-green-100"
                     >
                       <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                      <span className="text-gray-700">{item}</span>
+                      <span className="text-gray-700 text-sm md:text-base">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -479,9 +533,9 @@ export default function ProductDetailPage() {
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Productos Relacionados</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+          <section className="mb-8 lg:mb-12">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 md:mb-8">Productos Relacionados</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedProducts.map((relatedProduct) => (
                 <Card key={relatedProduct.id} className="overflow-hidden hover:shadow-xl transition-shadow">
                   <div className="aspect-video relative overflow-hidden">
@@ -504,20 +558,23 @@ export default function ProductDetailPage() {
                       </div>
                     </div>
                     <CardTitle className="text-lg">{relatedProduct.name}</CardTitle>
-                    <CardDescription>{relatedProduct.description}</CardDescription>
+                    <CardDescription className="text-sm md:text-base">{relatedProduct.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center justify-between mb-4">
-                      <Badge className="bg-green-100 text-green-800">{relatedProduct.availability}</Badge>
+                      <div className="text-lg md:text-xl font-bold text-blue-600">
+                        {formatPrice(relatedProduct.pricePerMonth)}/mes
+                      </div>
+                      <Badge className="bg-green-100 text-green-800 text-xs">{relatedProduct.availability}</Badge>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                       <Link href={`/catalogo/${relatedProduct.id}`} className="flex-1">
-                        <Button variant="outline" className="w-full bg-transparent">
+                        <Button variant="outline" className="w-full bg-transparent text-sm">
                           Ver Detalles
                         </Button>
                       </Link>
                       <Link href={`/cotizacion?product=${relatedProduct.id}`}>
-                        <Button className="bg-blue-600 hover:bg-blue-700">Cotizar</Button>
+                        <Button className="bg-blue-600 hover:bg-blue-700 text-sm px-4">Cotizar</Button>
                       </Link>
                     </div>
                   </CardContent>
@@ -529,15 +586,15 @@ export default function ProductDetailPage() {
 
         {/* CTA Section */}
         <Card className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-          <CardContent className="p-8 text-center">
-            <h2 className="text-2xl font-bold mb-4">¿Listo para arrendar este equipo?</h2>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <CardContent className="p-6 md:p-8 text-center">
+            <h2 className="text-xl md:text-2xl font-bold mb-4">¿Listo para arrendar este equipo?</h2>
+            <p className="text-blue-100 mb-6 max-w-2xl mx-auto text-sm md:text-base">
               Obtén una cotización personalizada para el {product.name} y descubre cómo puede impulsar tu productividad.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href={`/cotizacion?product=${product.id}`}>
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-                  <Calculator className="h-5 w-5 mr-2" />
+                <Button size="lg" className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100">
+                  <Calculator className="h-4 w-4 md:h-5 md:w-5 mr-2" />
                   Solicitar Cotización
                 </Button>
               </Link>
@@ -545,9 +602,9 @@ export default function ProductDetailPage() {
           </CardContent>
         </Card>
       </div>
-
       {/* Footer */}
       {<Footer />}
+      {<WhatsAppButton />}
     </div>
   )
 }

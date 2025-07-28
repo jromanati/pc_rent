@@ -27,57 +27,27 @@ export default function Header() {
                 />
               </Link>
             </div>
-            {/* Navigation */}
-            {/* <nav className="hidden lg:flex items-center space-x-8">
-              {[
-                { name: "Inicio", href: "/" },
-                { name: "Soluciones", href: "#soluciones" },
-                { name: "Metodología", href: "#metodologia" },
-                { name: "Casos", href: "#casos" },
-              ].map((item, index) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="relative text-gray-600 hover:text-blue-600 text-lg transition-all duration-300 group"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    const element = document.querySelector(item.href)
-                    if (element) {
-                      const headerHeight = 80 // Altura aproximada del header
-                      const elementPosition = (element as HTMLElement).offsetTop - headerHeight
-                      window.scrollTo({
-                        top: elementPosition,
-                        behavior: "smooth",
-                      })
-                    }
-                  }}
-                >
-                  {item.name}
+            
+            <div className="flex items-center gap-4 md:gap-6">
+              <nav className="hidden lg:flex items-center space-x-8">
+                <Link href="/" className="relative text-gray-600 hover:text-blue-600 text-lg transition-all duration-300 group">
+                  Inicio
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
-                </a>
-              ))}
+                </Link>
+                <Link href="/catalogo" className="relative text-gray-600 hover:text-blue-600 text-lg transition-all duration-300 group">
+                  Catálogo
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
+                </Link>
+                <Link href="/nosotros" className="relative text-gray-600 hover:text-blue-600 text-lg transition-all duration-300 group">
+                  Nosotros
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
+                </Link>
+              </nav>
               <Link href="/cotizacion" className="hidden md:block">
                 <Button className="bg-blue-600 hover:bg-blue-700">Solicitar Cotización</Button>
               </Link>
-            </nav> */}
-
-            <nav className="hidden lg:flex items-center space-x-8">
-              <Link href="/" className="relative text-gray-600 hover:text-blue-600 text-lg transition-all duration-300 group">
-                Inicio
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-              <Link href="/catalogo" className="relative text-gray-600 hover:text-blue-600 text-lg transition-all duration-300 group">
-                Catálogo
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-              <Link href="/nosotros" className="relative text-gray-600 hover:text-blue-600 text-lg transition-all duration-300 group">
-                Nosotros
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-yellow-400 group-hover:w-full transition-all duration-300"></span>
-              </Link>
-              <Link href="/cotizacion" className="hidden md:block">
-                <Button className="bg-blue-600 hover:bg-blue-700">Solicitar Cotización</Button>
-              </Link>
-            </nav>
+              <MobileNav />
+            </div>
           </div>
         </div>
       </header>

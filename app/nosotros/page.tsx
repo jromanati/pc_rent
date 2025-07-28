@@ -25,6 +25,7 @@ import Link from "next/link"
 import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import { WhatsAppButton } from "@/components/whatsapp-button"
 
 export default function NosotrosPage() {
   const stats = [
@@ -356,36 +357,12 @@ export default function NosotrosPage() {
                 Solicitar Cotización Gratuita
               </Button>
             </Link>
-            <Link href="tel:+56912345678">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-blue-600 bg-transparent"
-              >
-                <Phone className="h-5 w-5 mr-2" />
-                Llamar Ahora
-              </Button>
-            </Link>
-          </div>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-blue-100">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5" />
-              <span>Santiago de Chile</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Mail className="h-5 w-5" />
-              <span>contacto@solucionespcrent.cl</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Phone className="h-5 w-5" />
-              <span>+56 9 XXXX XXXX</span>
-            </div>
           </div>
         </div>
       </section>
-
       {/* Footer */}
       {<Footer />}
+      {<WhatsAppButton />}
     </div>
   )
 }
