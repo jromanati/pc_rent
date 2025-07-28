@@ -1,5 +1,6 @@
 "use client"
 
+import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -26,7 +27,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { MobileNav } from "@/components/mobile-nav"
 
 export default function HomePage() {
@@ -140,6 +141,10 @@ export default function HomePage() {
 
   function HeroCarousel() {
     const [currentSlide, setCurrentSlide] = useState(0)
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+    const touchStartX = useRef(0)
+    const touchEndX = useRef(0)
+    const carouselRef = useRef<HTMLDivElement>(null)
 
     const slides = [
       {
@@ -191,23 +196,73 @@ export default function HomePage() {
 
     // Auto-advance slides
     useEffect(() => {
+      if (!isAutoPlaying) return
+
       const timer = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length)
       }, 10000) // Cambia cada 10 segundos
 
       return () => clearInterval(timer)
+    }, [slides.length, isAutoPlaying])
+
+    const nextSlide = useCallback(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
     }, [slides.length])
 
-    const nextSlide = () => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }
-
-    const prevSlide = () => {
+    const prevSlide = useCallback(() => {
       setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-    }
+    }, [slides.length])
+
+    const goToSlide = useCallback((index: number) => {
+      setCurrentSlide(index)
+    }, [])
+
+    // Touch handlers
+    const handleTouchStart = useCallback((e: React.TouchEvent) => {
+      touchStartX.current = e.targetTouches[0].clientX
+      setIsAutoPlaying(false) // Pause auto-play when user interacts
+    }, [])
+
+    const handleTouchMove = useCallback((e: React.TouchEvent) => {
+      touchEndX.current = e.targetTouches[0].clientX
+    }, [])
+
+    const handleTouchEnd = useCallback(() => {
+      if (!touchStartX.current || !touchEndX.current) return
+
+      const distance = touchStartX.current - touchEndX.current
+      const isLeftSwipe = distance > 50
+      const isRightSwipe = distance < -50
+
+      if (isLeftSwipe) {
+        nextSlide()
+      } else if (isRightSwipe) {
+        prevSlide()
+      }
+
+      // Resume auto-play after 3 seconds
+      setTimeout(() => setIsAutoPlaying(true), 3000)
+    }, [nextSlide, prevSlide])
+
+    // Mouse handlers for desktop
+    const handleMouseEnter = useCallback(() => {
+      setIsAutoPlaying(false)
+    }, [])
+
+    const handleMouseLeave = useCallback(() => {
+      setIsAutoPlaying(true)
+    }, [])
 
     return (
-      <section className="relative h-screen overflow-hidden">
+      <section
+        className="relative h-screen overflow-hidden"
+        ref={carouselRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {slides.map((slide, index) => (
           <div
             key={slide.id}
