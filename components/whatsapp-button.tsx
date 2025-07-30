@@ -30,7 +30,7 @@ export function WhatsAppButton() {
               <div>
                 <p className="text-sm font-semibold text-gray-900 mb-1">¡Hola! 👋</p>
                 <p className="text-xs text-gray-600">
-                  ¿Tienes preguntas sobre nuestras excursiones? Escríbenos por WhatsApp y te ayudamos de inmediato.
+                  ¿Tienes preguntas? Escríbenos por WhatsApp y te ayudamos de inmediato.
                 </p>
               </div>
               <button
