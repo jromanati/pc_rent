@@ -10,7 +10,7 @@ export function WhatsAppButton() {
   // Número de WhatsApp (formato internacional sin + y sin espacios)
   const phoneNumber = "56912345678"
   const message =
-    "¡Hola! Me interesa conocer más sobre las excursiones de Jorge Excursiones Chile. ¿Podrían ayudarme con información?"
+    "¡Hola! Me interesa conocer más sobre arriendos de PC. ¿Podrían ayudarme con información?"
 
   const handleClick = () => {
     // Crear la URL de WhatsApp
