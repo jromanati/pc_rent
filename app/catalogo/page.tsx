@@ -20,7 +20,7 @@ export default function CatalogoPage() {
   const [selectedBrand, setSelectedBrand] = useState("all")
   const [selectedRAM, setSelectedRAM] = useState("all")
   const [selectedProcessor, setSelectedProcessor] = useState("all")
-  const [sortBy, setSortBy] = useState("featured")
+  const [sortBy, setSortBy] = useState("name")
   const [viewMode, setViewMode] = useState("grid")
   const [showFilters, setShowFilters] = useState(false)
 
@@ -286,9 +286,9 @@ export default function CatalogoPage() {
 
     // Sort
     switch (sortBy) {
-      case "featured":
-        filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
-        break
+      // case "featured":
+      //   filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
+      //   break
       case "name":
         filtered.sort((a, b) => a.name.localeCompare(b.name))
         break
@@ -302,30 +302,37 @@ export default function CatalogoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {<SocialNetworks />}
       {/* Page Title */}
       {<Header />}
 
       {/* Page Header */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">Catálogo Completo</h1>
-            <p className="text-xl opacity-90 mb-6">
-              Explora nuestra amplia selección de equipos tecnológicos de última generación. Más de 15 modelos
-              disponibles para arriendo empresarial.
-            </p>
-            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-blue-100 text-sm md:text-base">
-              <div className="flex items-center gap-2 w-full md:w-auto">
-                <Laptop className="h-5 w-5" />
-                <span>12+ Marcas</span>
-              </div>
-              <div className="flex items-center gap-2 w-full md:w-auto">
-                <Star className="h-5 w-5" />
-                <span>Equipos Certificados</span>
-              </div>
-              <div className="flex items-center gap-2 w-full md:w-auto">
-                <Badge className="bg-green-500">Disponible 24/7</Badge>
+      <section
+        className="relative bg-cover bg-center bg-no-repeat text-white py-20"
+        style={{ backgroundImage: "url('/images/mac_mr.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-blue-900/50 backdrop-brightness-75"></div>
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">Arriendo de Equipos</h1>
+              <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
+                Explora nuestra amplia selección de equipos tecnológicos de última generación.
+              </p>
+              <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
+                Más de 15 modelos disponibles para arriendo empresarial.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-blue-100 text-sm md:text-base">
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                  <Laptop className="h-5 w-5" />
+                  <span>12+ Marcas</span>
+                </div>
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                  <Star className="h-5 w-5" />
+                  <span>Equipos Certificados</span>
+                </div>
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                  <Badge className="bg-green-500">Disponible 24/7</Badge>
+                </div>
               </div>
             </div>
           </div>
@@ -471,9 +478,9 @@ export default function CatalogoPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="featured">Destacados</SelectItem>
                     <SelectItem value="name">Nombre A-Z</SelectItem>
                     <SelectItem value="brand">Marca</SelectItem>
+                    {/* <SelectItem value="featured">Destacados</SelectItem> */}
                   </SelectContent>
                 </Select>
 
@@ -509,11 +516,11 @@ export default function CatalogoPage() {
                     viewMode === "list" ? "flex flex-row" : ""
                   }`}
                 >
-                  {laptop.featured && (
+                  {/* {laptop.featured && (
                     <div className="bg-blue-600 text-white text-center py-2">
                       <Badge className="bg-white text-blue-600">⭐ Destacado</Badge>
                     </div>
-                  )}
+                  )} */}
 
                   <div className={`${viewMode === "list" ? "w-80" : ""} aspect-video relative overflow-hidden`}>
                     <Image
@@ -533,14 +540,14 @@ export default function CatalogoPage() {
                         <Badge variant="secondary">{laptop.category}</Badge>
                       </div>
                       <CardTitle className="text-xl">{laptop.name}</CardTitle>
-                      <div className="flex items-center justify-between">
+                      {/* <div className="flex items-center justify-between">
                         <CardDescription className="text-base">{laptop.description}</CardDescription>
                         <div className="flex">
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                           ))}
                         </div>
-                      </div>
+                      </div> */}
                     </CardHeader>
 
                     <CardContent>

@@ -111,7 +111,6 @@ export default function NosotrosPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
 
@@ -130,7 +129,7 @@ export default function NosotrosPage() {
                 <Building2 className="h-4 w-4 mr-2" />
                 Tu Socio Estratégico en Tecnología
               </Badge>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">Soluciones PC Rent</h1>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">Soluciones PC Rent</h1>
               <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
                 Especialistas en arriendo de equipos tecnológicos de última generación, con enfoque en laptops y
                 notebooks para empresas en Santiago de Chile.
@@ -180,9 +179,9 @@ export default function NosotrosPage() {
       {/* About Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 text-center">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
                 Nuestra Misión: Resolver sus Necesidades Informáticas
               </h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
@@ -204,10 +203,22 @@ export default function NosotrosPage() {
                 </p>
               </div>
             </div>
-            
+            <div className="relative">
+              <div className="relative">
+                <Image
+                  src="/images/home1.png?height=400&width=500&text=Oficina+Santiago+Chile"
+                  alt="Oficina en Santiago"
+                  width={700}
+                  height={500}
+                  className="rounded-2xl shadow-xl"
+                />
+                
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* Values Section */}
       <section className="py-20 bg-gray-50">
@@ -344,7 +355,7 @@ export default function NosotrosPage() {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <section className="py-10 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">¿Listo para Conocer Nuestras Soluciones?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">

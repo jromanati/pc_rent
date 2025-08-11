@@ -174,7 +174,7 @@ export default function HomePage() {
       },
       {
         id: 3,
-        title: "Compromiso con la Excelencia",
+        title: "Arriendo de Notebook",
         subtitle: "Calidad garantizada en cada servicio",
         description:
           "Trabajamos exclusivamente con las mejores marcas del mercado. Cada equipo pasa por rigurosos controles de calidad antes de llegar a tu empresa.",
@@ -255,7 +255,7 @@ export default function HomePage() {
 
     return (
       <section
-        className="relative h-screen overflow-hidden"
+        className="relative h-[60vh] min-h-[500px] overflow-hidden"
         ref={carouselRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -278,7 +278,7 @@ export default function HomePage() {
               }}
             >
               {/* Dark overlay for text readability */}
-              <div className="absolute inset-0 bg-black/60"></div>
+              <div className="absolute inset-0 bg-black/20"></div>
 
               {/* Gradient overlay for better text contrast */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
@@ -370,7 +370,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
 
@@ -553,7 +552,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <section className="py-10 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">¿Listo para Optimizar sus Recursos Tecnológicos?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">

@@ -149,7 +149,6 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
       
@@ -192,7 +191,6 @@ export default function ProductDetailPage() {
                 fill
                 className="object-cover"
               />
-              {product.featured && <Badge className="absolute top-4 left-4 bg-blue-600 text-white">⭐ Destacado</Badge>}
             </div>
             <div className="grid grid-cols-4 gap-2">
               {product.images.map((image, index) => (
@@ -245,18 +243,6 @@ export default function ProductDetailPage() {
 
             {/* Pricing */}
             <div className="bg-blue-50 rounded-2xl p-4 md:p-6 border border-blue-100">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
-                <div>
-                  <div className="text-2xl md:text-3xl font-bold text-blue-600">
-                    {formatPrice(product.pricePerMonth)}
-                  </div>
-                  <div className="text-sm text-gray-600">por mes</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm text-gray-500 line-through">{formatPrice(product.originalPrice)}</div>
-                  <div className="text-sm text-green-600 font-medium">Precio de compra</div>
-                </div>
-              </div>
               <div className="text-sm text-gray-600 space-y-1">
                 <p>• Incluye soporte técnico 24/7</p>
                 <p>• Entrega e instalación gratuita</p>
@@ -306,7 +292,7 @@ export default function ProductDetailPage() {
                     Solicitar Cotización
                   </Button>
                 </Link>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                   <Button size="lg" variant="outline" className="bg-transparent flex-1 sm:flex-none">
                     <Heart className="h-4 w-4 md:h-5 md:w-5" />
                     <span className="sm:hidden ml-2">Favorito</span>
@@ -315,7 +301,7 @@ export default function ProductDetailPage() {
                     <Share2 className="h-4 w-4 md:h-5 md:w-5" />
                     <span className="sm:hidden ml-2">Compartir</span>
                   </Button>
-                </div>
+                </div> */}
               </div>
               <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
@@ -358,119 +344,319 @@ export default function ProductDetailPage() {
               </TabsList>
             </CardHeader>
             <CardContent>
-              <TabsContent value="specs" className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Rendimiento</h3>
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Procesador:</span>
-                        <span className="font-medium text-right">{product.specs.processor}</span>
+              <TabsContent value="specs" className="space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Performance Section */}
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+                        <Cpu className="h-5 w-5 text-white" />
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Detalles CPU:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.processorDetails}
-                        </span>
+                      <h3 className="text-xl font-bold text-gray-900">Rendimiento</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-start justify-between p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <Cpu className="h-4 w-4 text-blue-600" />
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Procesador</span>
+                            <p className="font-semibold text-gray-900">{product.specs.processor}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">GPU:</span>
-                        <span className="font-medium text-right">{product.specs.gpu}</span>
+
+                      <div className="flex items-start justify-between p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <Zap className="h-4 w-4 text-purple-600" />
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Detalles CPU</span>
+                            <p className="font-semibold text-gray-900 text-sm">{product.specs.processorDetails}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Memoria RAM:</span>
-                        <span className="font-medium text-right">{product.specs.ram}</span>
+
+                      <div className="flex items-start justify-between p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                            <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">GPU</span>
+                            <p className="font-semibold text-gray-900">{product.specs.gpu}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Tipo de RAM:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.ramType}
-                        </span>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Zap className="h-4 w-4 text-orange-600" />
+                            <span className="text-sm font-medium text-gray-600">RAM</span>
+                          </div>
+                          <p className="font-bold text-lg text-gray-900">{product.specs.ram}</p>
+                          <p className="text-xs text-gray-500">{product.specs.ramType}</p>
+                        </div>
+
+                        <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <HardDrive className="h-4 w-4 text-indigo-600" />
+                            <span className="text-sm font-medium text-gray-600">Almacenamiento</span>
+                          </div>
+                          <p className="font-bold text-lg text-gray-900">{product.specs.storage}</p>
+                          <p className="text-xs text-gray-500">{product.specs.storageType}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Almacenamiento y Pantalla</h3>
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Almacenamiento:</span>
-                        <span className="font-medium text-right">{product.specs.storage}</span>
+
+                  {/* Display & Design Section */}
+                  <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-6 border border-emerald-100">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center">
+                        <Monitor className="h-5 w-5 text-white" />
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Tipo de SSD:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.storageType}
-                        </span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Pantalla:</span>
-                        <span className="font-medium text-right">{product.specs.screen}</span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Resolución:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.resolution}
-                        </span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Tipo de pantalla:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.screenType}
-                        </span>
-                      </div>
+                      <h3 className="text-xl font-bold text-gray-900">Pantalla y Diseño</h3>
                     </div>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Conectividad</h3>
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Puertos:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.connectivity}
-                        </span>
+                    <div className="space-y-4">
+                      <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+                            <Monitor className="h-4 w-4 text-emerald-600" />
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Pantalla</span>
+                            <p className="font-semibold text-gray-900">{product.specs.screen}</p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 gap-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Resolución:</span>
+                            <span className="font-medium text-gray-900">{product.specs.resolution}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Tecnología:</span>
+                            <span className="font-medium text-gray-900">{product.specs.screenType}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Inalámbrico:</span>
-                        <span className="font-medium text-right">{product.specs.wireless}</span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Cámara:</span>
-                        <span className="font-medium text-right">{product.specs.camera}</span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Audio:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.audio}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Diseño y Batería</h3>
-                    <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Peso:</span>
-                        <span className="font-medium text-right">{product.specs.weight}</span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Dimensiones:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.dimensions}
-                        </span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Batería:</span>
-                        <span className="font-medium text-right text-sm sm:text-base max-w-full sm:max-w-[60%]">
-                          {product.specs.battery}
-                        </span>
-                      </div>
-                      <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                        <span className="text-gray-600 font-medium">Sistema Operativo:</span>
-                        <span className="font-medium text-right">{product.specs.os}</span>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <svg className="h-4 w-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                            <span className="text-sm font-medium text-gray-600">Peso</span>
+                          </div>
+                          <p className="font-bold text-lg text-gray-900">{product.specs.weight}</p>
+                        </div>
+
+                        <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                          <div className="flex items-center gap-2 mb-2">
+                            <svg className="h-4 w-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z" />
+                            </svg>
+                            <span className="text-sm font-medium text-gray-600">Dimensiones</span>
+                          </div>
+                          <p className="font-semibold text-sm text-gray-900">{product.specs.dimensions}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                {/* Connectivity & Battery Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center">
+                        <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900">Conectividad</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mt-1">
+                            <svg className="h-4 w-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M15 7v4c0 .55-.45 1-1 1s-1-.45-1-1V7c0-.55.45-1 1-1s1 .45 1 1zm4-2H5c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h14c.55 0 1-.45 1-1V6c0-.55-.45-1-1-1zM8 16H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V6h2v2zm10 8h-8v-2h8v2zm0-4h-8v-2h8v2zm0-4h-8V6h8v2z" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <span className="text-sm font-medium text-gray-600">Puertos</span>
+                            <p className="font-semibold text-gray-900 text-sm leading-relaxed">
+                              {product.specs.connectivity}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <svg className="h-4 w-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.07 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Inalámbrico</span>
+                            <p className="font-semibold text-gray-900">{product.specs.wireless}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-3 bg-white/70 rounded-xl border border-white/50">
+                          <div className="flex items-center gap-2 mb-1">
+                            <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                            <span className="text-xs font-medium text-gray-600">Cámara</span>
+                          </div>
+                          <p className="font-semibold text-sm text-gray-900">{product.specs.camera}</p>
+                        </div>
+
+                        <div className="p-3 bg-white/70 rounded-xl border border-white/50">
+                          <div className="flex items-center gap-2 mb-1">
+                            <svg className="h-4 w-4 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                            <span className="text-xs font-medium text-gray-600">Audio</span>
+                          </div>
+                          <p className="font-semibold text-xs text-gray-900 leading-tight">{product.specs.audio}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center">
+                        <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M15.67 4H14V2c0-.55-.45-1-1-1s-1 .45-1 1v2H9.33C8.6 4 8 4.6 8 5.33v15.33C8 21.4 8.6 22 9.33 22h6.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900">Batería y Sistema</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                            <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M15.67 4H14V2c0-.55-.45-1-1-1s-1 .45-1 1v2H9.33C8.6 4 8 4.6 8 5.33v15.33C8 21.4 8.6 22 9.33 22h6.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4zM13 19c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1zm2.33-2H8.67V6h6.67v11z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Duración de Batería</span>
+                            <p className="font-bold text-lg text-gray-900">{product.specs.battery}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <svg className="h-4 w-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h3l-1 1v2h12v-2l-1-1h3c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H4V5h16v11z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Sistema Operativo</span>
+                            <p className="font-semibold text-gray-900">{product.specs.os}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 bg-white/70 rounded-xl border border-white/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <svg className="h-4 w-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-9H19v2h-1.5v16.5c0 1.1-.9 2-2 2h-11c-1.1 0-2-.9-2-2V4H1V2h3.5c.83 0 1.5.67 1.5 1.5S5.33 5 4.5 5H4v13.5c0 .28.22.5.5.5h11c.28 0 .5-.22.5-.5V5h-.5c-.83 0-1.5-.67-1.5-1.5S14.67 2 15.5 2H19v2z" />
+                            </svg>
+                          </div>
+                          <div>
+                            <span className="text-sm font-medium text-gray-600">Garantía</span>
+                            <p className="font-semibold text-gray-900">{product.specs.warranty}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Additional Features 
+                <div className="bg-gradient-to-r from-gray-50 to-slate-50 rounded-2xl p-6 border border-gray-200">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 bg-gray-700 rounded-xl flex items-center justify-center">
+                      <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">Características Adicionales</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                          <svg className="h-4 w-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Teclado</span>
+                          <p className="font-semibold text-sm text-gray-900">{product.specs.keyboard}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                          <svg className="h-4 w-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M13 1.07V9h7c0-4.08-3.05-7.44-7-7.93zM4 15c0 4.42 3.58 8 8 8s8-3.58 8-8v-4H4v4zm7-13.93C7.05 1.56 4 4.92 4 9h7V1.07z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Trackpad</span>
+                          <p className="font-semibold text-sm text-gray-900">{product.specs.trackpad}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                          <svg className="h-4 w-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-600">Colores Disponibles</span>
+                          <div className="flex gap-1 mt-1">
+                            {product.specs.colors?.slice(0, 3).map((color, index) => (
+                              <div
+                                key={index}
+                                className="w-4 h-4 rounded-full bg-gray-300 border border-gray-400"
+                                title={color}
+                              ></div>
+                            ))}
+                            {product.specs.colors?.length > 3 && (
+                              <span className="text-xs text-gray-500 ml-1">+{product.specs.colors.length - 3}</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>*/}
               </TabsContent>
 
               <TabsContent value="features" className="space-y-4">

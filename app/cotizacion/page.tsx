@@ -326,7 +326,6 @@ export default function CotizacionPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {<SocialNetworks />}
       {/* Header */}
       {<Header />}
       
