@@ -24,103 +24,26 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { useParams } from "next/navigation"
-import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-
+import {allLaptops} from "@/data/equiposData"
 export default function ProductDetailPage() {
   const params = useParams()
   const productId = Number.parseInt(params.id as string)
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
 
-  // Base de datos de productos (en una app real vendría de una API)
-  const allLaptops = [
-    {
-      id: 1,
-      name: "Apple MacBook Air M3",
-      brand: "Apple",
-      model: "MacBook Air M3 15-inch",
-      images: [
-        "/images/mac_mr.jpg?height=600&width=800&text=MacBook+Air+M3+Front",
-        "/images/mac_mr_2.jpeg?height=600&width=800&text=MacBook+Air+M3+Front",
-        "/images/mac_mr_3.jpg?height=600&width=800&text=MacBook+Air+M3+Front",
-      ],
-      specs: {
-        processor: "Apple M3 8-core CPU",
-        processorDetails: "4 núcleos de rendimiento y 4 núcleos de eficiencia",
-        gpu: "GPU de 10 núcleos",
-        ram: "16GB",
-        ramType: "Memoria unificada LPDDR5",
-        storage: "512GB SSD",
-        storageType: "SSD PCIe de alta velocidad",
-        screen: "15.3 pulgadas",
-        resolution: "2880 x 1864 píxeles a 224 ppp",
-        screenType: "Liquid Retina con tecnología True Tone",
-        os: "macOS Sonoma",
-        connectivity: "2x Thunderbolt / USB 4, MagSafe 3, jack de audio de 3.5 mm",
-        wireless: "Wi-Fi 6E, Bluetooth 5.3",
-        camera: "Cámara FaceTime HD 1080p",
-        audio: "Sistema de sonido de cuatro altavoces con audio espacial",
-        keyboard: "Magic Keyboard retroiluminado con Touch ID",
-        trackpad: "Force Touch trackpad",
-        weight: "1.51 kg",
-        dimensions: "34.04 x 23.76 x 1.15 cm",
-        battery: "Hasta 18 horas de reproducción de video",
-        colors: ["Gris espacial", "Plata", "Azul medianoche", "Luz de las estrellas"],
-        warranty: "1 año de garantía limitada de Apple",
-      },
-      description:
-        "El MacBook Air M3 combina potencia excepcional con eficiencia energética en un diseño ultradelgado. Ideal para profesionales que buscan alto rendimiento sin comprometer la portabilidad.",
-      longDescription:
-        "El nuevo MacBook Air de 15 pulgadas con chip M3 redefine lo que significa ser portátil sin sacrificar el rendimiento. Con su diseño icónico de aluminio reciclado y una pantalla Liquid Retina espectacular, este equipo es perfecto para profesionales creativos, desarrolladores y empresarios que necesitan potencia sobre la marcha. El chip M3 ofrece un rendimiento hasta 60% más rápido que el M1, mientras que la batería de todo el día garantiza productividad sin interrupciones.",
-      features: [
-        "Chip M3 con CPU de 8 núcleos y GPU de 10 núcleos",
-        "Pantalla Liquid Retina de 15.3 pulgadas con True Tone",
-        "Hasta 18 horas de batería",
-        "Magic Keyboard retroiluminado con Touch ID",
-        "Cámara FaceTime HD 1080p",
-        "Sistema de sonido de cuatro altavoces con audio espacial",
-        "Dos puertos Thunderbolt / USB 4",
-        "Carga rápida MagSafe 3",
-      ],
-      benefits: [
-        "Rendimiento excepcional para aplicaciones profesionales",
-        "Diseño ultradelgado y ligero para máxima portabilidad",
-        "Batería de larga duración para trabajo sin interrupciones",
-        "Pantalla de alta resolución ideal para diseño y desarrollo",
-        "Ecosistema Apple integrado con iPhone y iPad",
-        "Construcción premium con materiales reciclados",
-      ],
-      idealFor: [
-        "Desarrolladores de software",
-        "Diseñadores gráficos y creativos",
-        "Profesionales de marketing digital",
-        "Estudiantes universitarios",
-        "Ejecutivos y consultores",
-        "Creadores de contenido",
-      ],
-      included: [
-        "MacBook Air M3 15 pulgadas",
-        "Adaptador de corriente USB-C de 35W",
-        "Cable de carga USB-C a MagSafe 3 (2 m)",
-        "Documentación",
-      ],
-      featured: true,
-      category: "Premium",
-      availability: "Disponible",
-      rating: 4.9,
-      reviews: 127,
-      inStock: true,
-      deliveryTime: "24-48 horas",
-    },
-    // Agregar más productos aquí...
-  ]
+  // const product = allLaptops.find((p) => p.id === productId)
+  // const [product, setProduct] = useState("")
+  
+  const id = Number(productId) // normaliza
 
-  const product = allLaptops.find((p) => p.id === productId)
+  const product = useMemo(() => {
+    return allLaptops.find((p) => p.id === id) ?? null
+  }, [id])
 
   if (!product) {
     return (
@@ -134,6 +57,7 @@ export default function ProductDetailPage() {
       </div>
     )
   }
+  console.log(product, 'product')
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("es-CL", {
@@ -162,7 +86,7 @@ export default function ProductDetailPage() {
             </Link>
             <ChevronRight className="h-4 w-4" />
             <Link href="/catalogo" className="hover:text-blue-600">
-              Catálogo
+              Arriendo de Equipos
             </Link>
             <ChevronRight className="h-4 w-4" />
             <span className="text-gray-900 font-medium truncate">{product.name}</span>
@@ -172,15 +96,6 @@ export default function ProductDetailPage() {
 
       <div className="container mx-auto px-4 py-6 md:py-8">
         {/* Back Button */}
-        <div className="mb-6">
-          <Link href="/catalogo">
-            <Button variant="outline" className="bg-transparent">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Volver al Catálogo
-            </Button>
-          </Link>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-8 lg:mb-12">
           {/* Product Images */}
           <div className="space-y-4">
@@ -223,7 +138,7 @@ export default function ProductDetailPage() {
                 {product.inStock && <Badge className="bg-green-100 text-green-800">En Stock</Badge>}
               </div>
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+              {/* <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
@@ -237,7 +152,7 @@ export default function ProductDetailPage() {
                     {product.rating} ({product.reviews} reseñas)
                   </span>
                 </div>
-              </div>
+              </div> */}
               <p className="text-base md:text-lg text-gray-600 leading-relaxed">{product.description}</p>
             </div>
 

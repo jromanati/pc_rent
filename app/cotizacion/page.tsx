@@ -33,10 +33,10 @@ import Link from "next/link"
 import { useState, useMemo, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { MobileNav } from "@/components/mobile-nav"
-import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
+import {allLaptops} from "@/data/equiposData"
 
 export default function CotizacionPage() {
   const searchParams = useSearchParams()
@@ -46,7 +46,9 @@ export default function CotizacionPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedBrand, setSelectedBrand] = useState("all")
   const [selectedCategory, setSelectedCategory] = useState("all")
+  const [priceRange, setPriceRange] = useState("all")
   const [activeTab, setActiveTab] = useState("all")
+  const [mainTab, setMainTab] = useState("notebook")
 
   const [clientData, setClientData] = useState({
     nombre: "",
@@ -62,189 +64,6 @@ export default function CotizacionPage() {
     comentarios: "",
   })
 
-  const allLaptops = [
-    {
-      id: 1,
-      name: "Apple MacBook Air M3",
-      brand: "Apple",
-      image: "/placeholder.svg?height=150&width=200&text=MacBook+Air+M3",
-      specs: {
-        processor: "Apple M3 8-core",
-        ram: "16GB",
-        storage: "512GB SSD",
-        screen: "15.3 pulgadas",
-      },
-      description: "Potencia y eficiencia en diseño ultradelgado.",
-      featured: true,
-      category: "Premium",
-    },
-    {
-      id: 2,
-      name: "Apple MacBook Pro M3",
-      brand: "Apple",
-      image: "/placeholder.svg?height=150&width=200&text=MacBook+Pro+M3",
-      specs: {
-        processor: "Apple M3 Pro",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "16 pulgadas",
-      },
-      description: "Máximo rendimiento para profesionales creativos.",
-      featured: true,
-      category: "Premium",
-    },
-    {
-      id: 3,
-      name: "Acer Aspire Lite Ryzen 7",
-      brand: "Acer",
-      image: "/placeholder.svg?height=150&width=200&text=Acer+Aspire+Lite",
-      specs: {
-        processor: "AMD Ryzen 7 5700U",
-        ram: "32GB",
-        storage: "512GB SSD",
-        screen: "15.6 pulgadas",
-      },
-      description: "Equilibrio perfecto entre rendimiento y movilidad.",
-      featured: false,
-      category: "Business",
-    },
-    {
-      id: 4,
-      name: "HP Pavilion 15-Eg0522La",
-      brand: "HP",
-      image: "/placeholder.svg?height=150&width=200&text=HP+Pavilion+15",
-      specs: {
-        processor: "Intel Core i7-1165G7",
-        ram: "16GB",
-        storage: "512GB SSD",
-        screen: "15.6 pulgadas",
-      },
-      description: "Versatilidad empresarial con excelente relación precio-rendimiento.",
-      featured: true,
-      category: "Business",
-    },
-    {
-      id: 5,
-      name: "Lenovo ThinkPad X1 Carbon",
-      brand: "Lenovo",
-      image: "/placeholder.svg?height=150&width=200&text=ThinkPad+X1",
-      specs: {
-        processor: "Intel Core i7-1255U",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "14 pulgadas",
-      },
-      description: "Ultrabook empresarial con construcción premium.",
-      featured: true,
-      category: "Enterprise",
-    },
-    {
-      id: 6,
-      name: "Dell XPS 13 Plus",
-      brand: "Dell",
-      image: "/placeholder.svg?height=150&width=200&text=Dell+XPS+13",
-      specs: {
-        processor: "Intel Core i7-1260P",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "13.4 pulgadas",
-      },
-      description: "Diseño innovador con pantalla 4K.",
-      featured: false,
-      category: "Premium",
-    },
-    {
-      id: 7,
-      name: "Acer Predator Helios 300",
-      brand: "Acer",
-      image: "/placeholder.svg?height=150&width=200&text=Acer+Predator",
-      specs: {
-        processor: "Intel Core i7-12700H",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "15.6 pulgadas",
-      },
-      description: "Potencia extrema para aplicaciones demanding.",
-      featured: false,
-      category: "Gaming",
-    },
-    {
-      id: 8,
-      name: "HP EliteBook 840 G9",
-      brand: "HP",
-      image: "/placeholder.svg?height=150&width=200&text=HP+EliteBook",
-      specs: {
-        processor: "Intel Core i7-1255U",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "14 pulgadas",
-      },
-      description: "Seguridad empresarial y rendimiento profesional.",
-      featured: false,
-      category: "Enterprise",
-    },
-    {
-      id: 9,
-      name: "Lenovo Legion 5 Pro",
-      brand: "Lenovo",
-      image: "/placeholder.svg?height=150&width=200&text=Legion+5+Pro",
-      specs: {
-        processor: "AMD Ryzen 7 6800H",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "16 pulgadas",
-      },
-      description: "Rendimiento gaming y creativo profesional.",
-      featured: false,
-      category: "Gaming",
-    },
-    {
-      id: 10,
-      name: "ASUS ZenBook Pro 15",
-      brand: "ASUS",
-      image: "/placeholder.svg?height=150&width=200&text=ASUS+ZenBook",
-      specs: {
-        processor: "Intel Core i7-11800H",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "15.6 pulgadas",
-      },
-      description: "Creatividad sin límites con pantalla OLED.",
-      featured: false,
-      category: "Creative",
-    },
-    {
-      id: 11,
-      name: "Microsoft Surface Laptop 5",
-      brand: "Microsoft",
-      image: "/placeholder.svg?height=150&width=200&text=Surface+Laptop",
-      specs: {
-        processor: "Intel Core i7-1255U",
-        ram: "32GB",
-        storage: "1TB SSD",
-        screen: "13.5 pulgadas",
-      },
-      description: "Elegancia y productividad en el ecosistema Microsoft.",
-      featured: false,
-      category: "Premium",
-    },
-    {
-      id: 12,
-      name: "Dell Latitude 7430",
-      brand: "Dell",
-      image: "/placeholder.svg?height=150&width=200&text=Dell+Latitude",
-      specs: {
-        processor: "Intel Core i7-1255U",
-        ram: "16GB",
-        storage: "512GB SSD",
-        screen: "14 pulgadas",
-      },
-      description: "Confiabilidad empresarial con seguridad avanzada.",
-      featured: false,
-      category: "Enterprise",
-    },
-  ]
-
   // Pre-seleccionar producto si viene desde un enlace específico
   useEffect(() => {
     if (preSelectedProductId) {
@@ -258,7 +77,14 @@ export default function CotizacionPage() {
     }
   }, [preSelectedProductId])
 
-  const brands = ["Apple", "Acer", "HP", "Lenovo", "Dell", "ASUS", "Microsoft"]
+  const brands = useMemo(() => {
+    if (mainTab === "macbook") {
+      return ["Apple"]
+    } else {
+      return ["Acer", "HP", "Lenovo", "Dell", "ASUS", "Microsoft"]
+    }
+  }, [mainTab])
+
   const categories = [
     { value: "all", label: "Todos", count: allLaptops.length },
     { value: "Premium", label: "Premium", count: allLaptops.filter((l) => l.category === "Premium").length },
@@ -269,14 +95,40 @@ export default function CotizacionPage() {
   ]
 
   const filteredLaptops = useMemo(() => {
-    let filtered = allLaptops.filter((laptop) => {
+    // Primero filtrar por tab principal (Apple vs otros)
+    const tabFiltered = allLaptops.filter((laptop) => {
+      if (mainTab === "macbook") {
+        return laptop.brand === "Apple"
+      } else {
+        return laptop.brand !== "Apple"
+      }
+    })
+
+    let filtered = tabFiltered.filter((laptop) => {
       const matchesSearch =
         laptop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         laptop.brand.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesBrand = selectedBrand === "all" || laptop.brand === selectedBrand
       const matchesCategory = selectedCategory === "all" || laptop.category === selectedCategory
       const matchesTab = activeTab === "all" || laptop.category === activeTab
-      return matchesSearch && matchesBrand && matchesCategory && matchesTab
+
+      let matchesPrice = true
+      if (priceRange !== "all") {
+        const price = laptop.pricePerMonth
+        switch (priceRange) {
+          case "low":
+            matchesPrice = price < 30000
+            break
+          case "medium":
+            matchesPrice = price >= 30000 && price < 45000
+            break
+          case "high":
+            matchesPrice = price >= 45000
+            break
+        }
+      }
+
+      return matchesSearch && matchesBrand && matchesCategory && matchesTab && matchesPrice
     })
 
     // Si hay un producto pre-seleccionado, ponerlo primero en la lista
@@ -289,7 +141,7 @@ export default function CotizacionPage() {
     }
 
     return filtered
-  }, [searchTerm, selectedBrand, selectedCategory, activeTab, preSelectedProductId])
+  }, [searchTerm, selectedBrand, selectedCategory, activeTab, priceRange, preSelectedProductId, mainTab])
 
   const handleProductSelect = (productId: number, quantity: number) => {
     if (quantity === 0) {
@@ -301,7 +153,21 @@ export default function CotizacionPage() {
     }
   }
 
+  const calculateTotal = () => {
+    const duration = Number.parseInt(clientData.duracionArriendo) || 1
+    return Object.entries(selectedProducts).reduce((total, [productId, quantity]) => {
+      const product = allLaptops.find((p) => p.id === Number.parseInt(productId))
+      return total + (product?.pricePerMonth || 0) * quantity * duration
+    }, 0)
+  }
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("es-CL", {
+      style: "currency",
+      currency: "CLP",
+      minimumFractionDigits: 0,
+    }).format(price)
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -316,6 +182,7 @@ export default function CotizacionPage() {
     setSearchTerm("")
     setSelectedBrand("all")
     setSelectedCategory("all")
+    setPriceRange("all")
     setActiveTab("all")
   }
 
@@ -541,11 +408,42 @@ export default function CotizacionPage() {
                     <Laptop className="h-5 w-5" />
                     {preSelectedProduct ? "Agregar Más Equipos" : "Seleccionar Equipos"}
                   </CardTitle>
+
+                  {/* Main Category Tabs */}
+                  <div className="flex flex-col sm:flex-row gap-3 my-4">
+                    <button
+                      onClick={() => setMainTab("notebook")}
+                      className={`px-4 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
+                        mainTab === "notebook"
+                          ? "bg-blue-600 text-white shadow-md"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`}
+                    >
+                      <Laptop className="h-4 w-4 inline mr-2" />
+                      Arriendo de Notebook
+                    </button>
+                    <button
+                      onClick={() => setMainTab("macbook")}
+                      className={`px-4 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
+                        mainTab === "macbook"
+                          ? "bg-blue-600 text-white shadow-md"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`}
+                    >
+                      <svg className="h-4 w-4 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.987 11.987s11.987-5.367 11.987-11.987C24.003 5.367 18.636.001 12.017.001zM8.218 2.326c1.43 0 2.59 1.16 2.59 2.59s-1.16 2.59-2.59 2.59-2.59-1.16-2.59-2.59 1.16-2.59 2.59-2.59zm7.598 0c1.43 0 2.59 1.16 2.59 2.59s-1.16 2.59-2.59 2.59-2.59-1.16-2.59-2.59 1.16-2.59 2.59-2.59zM12.017 21.661c-5.338 0-9.674-4.336-9.674-9.674S6.679 2.313 12.017 2.313s9.674 4.336 9.674 9.674-4.336 9.674-9.674 9.674z" />
+                      </svg>
+                      Arriendo de MacBook
+                    </button>
+                  </div>
+
                   <CardDescription className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-sm">
                       {preSelectedProduct
                         ? `${preSelectedProduct.name} ya está seleccionado. Puedes agregar más equipos si lo necesitas.`
-                        : "Elige los equipos que necesitas para tu cotización"}
+                        : mainTab === "macbook"
+                          ? "Selecciona los MacBook que necesitas para tu cotización"
+                          : "Selecciona los Notebook que necesitas para tu cotización"}
                     </span>
                     <Link
                       href="/catalogo"
@@ -568,7 +466,7 @@ export default function CotizacionPage() {
                           className="pl-10"
                         />
                       </div>
-                      <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+                      {/* <Select value={selectedBrand} onValueChange={setSelectedBrand}>
                         <SelectTrigger>
                           <SelectValue placeholder="Marca" />
                         </SelectTrigger>
@@ -580,7 +478,18 @@ export default function CotizacionPage() {
                             </SelectItem>
                           ))}
                         </SelectContent>
-                      </Select>                      
+                      </Select>
+                      <Select value={priceRange} onValueChange={setPriceRange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Precio" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Todos los precios</SelectItem>
+                          <SelectItem value="low">Hasta $30.000</SelectItem>
+                          <SelectItem value="medium">$30.000 - $45.000</SelectItem>
+                          <SelectItem value="high">Más de $45.000</SelectItem>
+                        </SelectContent>
+                      </Select> */}
                       <Button variant="outline" onClick={clearFilters} className="bg-transparent">
                         <Filter className="h-4 w-4 mr-2" />
                         Limpiar
@@ -657,6 +566,12 @@ export default function CotizacionPage() {
                                   </div>
                                   <p className="text-xs text-gray-600 mt-1 line-clamp-1">{laptop.description}</p>
                                 </div>
+                                <div className="text-right flex-shrink-0 sm:ml-4">
+                                  <div className="text-lg font-bold text-blue-600">
+                                    {formatPrice(laptop.pricePerMonth)}
+                                  </div>
+                                  <div className="text-xs text-gray-500">por mes</div>
+                                </div>
                               </div>
 
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 gap-3">
@@ -721,7 +636,12 @@ export default function CotizacionPage() {
                   </div>
 
                   <div className="mt-4 text-sm text-gray-600 text-center">
-                    Mostrando {filteredLaptops.length} de {allLaptops.length} equipos
+                    Mostrando {filteredLaptops.length} de{" "}
+                    {
+                      allLaptops.filter((l) => (mainTab === "macbook" ? l.brand === "Apple" : l.brand !== "Apple"))
+                        .length
+                    }{" "}
+                    equipos {mainTab === "macbook" ? "MacBook" : "Notebook"}
                   </div>
                 </CardContent>
               </Card>
@@ -764,7 +684,10 @@ export default function CotizacionPage() {
                                 {isPreSelected && (
                                   <Badge className="bg-green-500 text-white text-xs flex-shrink-0">✓</Badge>
                                 )}
-                              </div>                              
+                              </div>
+                              <p className="text-xs text-gray-600">
+                                {formatPrice(product.pricePerMonth)}/mes × {quantity}
+                              </p>
                             </div>
                             <Button
                               type="button"
@@ -783,6 +706,17 @@ export default function CotizacionPage() {
 
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
+                          <span>Subtotal mensual:</span>
+                          <span>
+                            {formatPrice(
+                              Object.entries(selectedProducts).reduce((total, [productId, quantity]) => {
+                                const product = allLaptops.find((p) => p.id === Number.parseInt(productId))
+                                return total + (product?.pricePerMonth || 0) * quantity
+                              }, 0),
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-sm">
                           <span>Duración:</span>
                           <span>{clientData.duracionArriendo || "1"} mes(es)</span>
                         </div>
@@ -793,8 +727,15 @@ export default function CotizacionPage() {
                       </div>
 
                       <Separator />
+
+                      <div className="flex justify-between font-bold text-lg">
+                        <span>Total:</span>
+                        <span className="text-blue-600">{formatPrice(calculateTotal())}</span>
+                      </div>
+
                       <div className="text-xs text-gray-500 space-y-1">
                         <p>• Incluye soporte técnico 24/7</p>
+                        <p>• Entrega e instalación gratuita</p>
                         <p>• Equipos de reemplazo inmediato</p>
                         <p>• Precios sujetos a confirmación</p>
                       </div>

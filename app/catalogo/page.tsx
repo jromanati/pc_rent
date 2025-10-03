@@ -6,273 +6,48 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Laptop, Search, Filter, Star, Grid3X3, List, SlidersHorizontal, Calculator, Phone, Mail} from "lucide-react"
+import { Laptop, Search, Filter, Star, Grid3X3, List, SlidersHorizontal, Calculator } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useMemo } from "react"
-import SocialNetworks from "@/components/rrss"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
+import {allLaptops} from "@/data/equiposData"
 
 export default function CatalogoPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedBrand, setSelectedBrand] = useState("all")
   const [selectedRAM, setSelectedRAM] = useState("all")
   const [selectedProcessor, setSelectedProcessor] = useState("all")
-  const [sortBy, setSortBy] = useState("name")
+  const [priceRange, setPriceRange] = useState("all")
+  const [sortBy, setSortBy] = useState("featured")
   const [viewMode, setViewMode] = useState("grid")
   const [showFilters, setShowFilters] = useState(false)
+  const [mainTab, setMainTab] = useState("notebook")
 
-  const allLaptops = [
-    {
-      id: 1,
-      name: "Apple MacBook Air M3",
-      brand: "Apple",
-      image: "/images/mac_mr.jpg?height=300&width=400&text=MacBook+Air+M3",
-      specs: {
-        screen: "15.3 pulgadas",
-        processor: "Apple M3",
-        ram: "16GB",
-        storage: "512GB SSD",
-        resolution: "2880 x 1864",
-        os: "macOS",
-        weight: "1.51 kg",
-        battery: "18 horas",
-      },
-      description: "Potencia y eficiencia en diseño ultradelgado. Ideal para profesionales exigentes.",
-      featured: true,
-      category: "Premium",
-      availability: "Disponible",
-    },
-    {
-      id: 2,
-      name: "Apple MacBook Pro M3",
-      brand: "Apple",
-      image: "/placeholder.svg?height=300&width=400&text=MacBook+Pro+M3",
-      specs: {
-        screen: "16 pulgadas",
-        processor: "Apple M3 Pro",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "3456 x 2234",
-        os: "macOS",
-        weight: "2.16 kg",
-        battery: "22 horas",
-      },
-      description: "Máximo rendimiento para profesionales creativos y desarrolladores.",
-      featured: true,
-      category: "Premium",
-      availability: "Disponible",
-    },
-    {
-      id: 3,
-      name: "Acer Aspire Lite Ryzen 7",
-      brand: "Acer",
-      image: "/placeholder.svg?height=300&width=400&text=Acer+Aspire+Lite",
-      specs: {
-        screen: "15.6 pulgadas",
-        processor: "AMD Ryzen 7 5700U",
-        ram: "32GB",
-        storage: "512GB SSD",
-        resolution: "1920 x 1080",
-        os: "Windows 11",
-        weight: "1.7 kg",
-        battery: "9 horas",
-      },
-      description: "Equilibrio perfecto entre rendimiento y movilidad.",
-      featured: false,
-      category: "Business",
-      availability: "Disponible",
-    },
-    {
-      id: 4,
-      name: "Acer Predator Helios 300",
-      brand: "Acer",
-      image: "/placeholder.svg?height=300&width=400&text=Acer+Predator",
-      specs: {
-        screen: "15.6 pulgadas",
-        processor: "Intel Core i7-12700H",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "1920 x 1080",
-        os: "Windows 11",
-        weight: "2.3 kg",
-        battery: "6 horas",
-      },
-      description: "Potencia extrema para aplicaciones demanding y gaming profesional.",
-      featured: false,
-      category: "Gaming",
-      availability: "Disponible",
-    },
-    {
-      id: 5,
-      name: "HP Pavilion 15-Eg0522La",
-      brand: "HP",
-      image: "/placeholder.svg?height=300&width=400&text=HP+Pavilion+15",
-      specs: {
-        screen: "15.6 pulgadas",
-        processor: "Intel Core i7-1165G7",
-        ram: "16GB",
-        storage: "512GB SSD",
-        resolution: "1920 x 1080",
-        os: "Windows 11",
-        weight: "1.75 kg",
-        battery: "8 horas",
-      },
-      description: "Versatilidad empresarial con excelente relación precio-rendimiento.",
-      featured: true,
-      category: "Business",
-      availability: "Disponible",
-    },
-    {
-      id: 6,
-      name: "HP EliteBook 840 G9",
-      brand: "HP",
-      image: "/placeholder.svg?height=300&width=400&text=HP+EliteBook",
-      specs: {
-        screen: "14 pulgadas",
-        processor: "Intel Core i7-1255U",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "1920 x 1080",
-        os: "Windows 11 Pro",
-        weight: "1.36 kg",
-        battery: "12 horas",
-      },
-      description: "Seguridad empresarial y rendimiento profesional en diseño premium.",
-      featured: false,
-      category: "Enterprise",
-      availability: "Disponible",
-    },
-    {
-      id: 7,
-      name: "Lenovo ThinkPad X1 Carbon",
-      brand: "Lenovo",
-      image: "/placeholder.svg?height=300&width=400&text=ThinkPad+X1",
-      specs: {
-        screen: "14 pulgadas",
-        processor: "Intel Core i7-1255U",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "2880 x 1800",
-        os: "Windows 11 Pro",
-        weight: "1.12 kg",
-        battery: "15 horas",
-      },
-      description: "Ultrabook empresarial con construcción premium y máxima portabilidad.",
-      featured: true,
-      category: "Enterprise",
-      availability: "Disponible",
-    },
-    {
-      id: 8,
-      name: "Lenovo Legion 5 Pro",
-      brand: "Lenovo",
-      image: "/placeholder.svg?height=300&width=400&text=Legion+5+Pro",
-      specs: {
-        screen: "16 pulgadas",
-        processor: "AMD Ryzen 7 6800H",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "2560 x 1600",
-        os: "Windows 11",
-        weight: "2.5 kg",
-        battery: "7 horas",
-      },
-      description: "Rendimiento gaming y creativo profesional en un solo equipo.",
-      featured: false,
-      category: "Gaming",
-      availability: "Disponible",
-    },
-    {
-      id: 9,
-      name: "Dell XPS 13 Plus",
-      brand: "Dell",
-      image: "/placeholder.svg?height=300&width=400&text=Dell+XPS+13",
-      specs: {
-        screen: "13.4 pulgadas",
-        processor: "Intel Core i7-1260P",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "3840 x 2400",
-        os: "Windows 11",
-        weight: "1.26 kg",
-        battery: "12 horas",
-      },
-      description: "Diseño innovador con pantalla 4K y rendimiento excepcional.",
-      featured: false,
-      category: "Premium",
-      availability: "Disponible",
-    },
-    {
-      id: 10,
-      name: "Dell Latitude 7430",
-      brand: "Dell",
-      image: "/placeholder.svg?height=300&width=400&text=Dell+Latitude",
-      specs: {
-        screen: "14 pulgadas",
-        processor: "Intel Core i7-1255U",
-        ram: "16GB",
-        storage: "512GB SSD",
-        resolution: "1920 x 1080",
-        os: "Windows 11 Pro",
-        weight: "1.36 kg",
-        battery: "10 horas",
-      },
-      description: "Confiabilidad empresarial con características de seguridad avanzadas.",
-      featured: false,
-      category: "Enterprise",
-      availability: "Disponible",
-    },
-    {
-      id: 11,
-      name: "ASUS ZenBook Pro 15",
-      brand: "ASUS",
-      image: "/placeholder.svg?height=300&width=400&text=ASUS+ZenBook",
-      specs: {
-        screen: "15.6 pulgadas",
-        processor: "Intel Core i7-11800H",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "1920 x 1080",
-        os: "Windows 11",
-        weight: "1.8 kg",
-        battery: "9 horas",
-      },
-      description: "Creatividad sin límites con pantalla OLED y rendimiento profesional.",
-      featured: false,
-      category: "Creative",
-      availability: "Disponible",
-    },
-    {
-      id: 12,
-      name: "Microsoft Surface Laptop 5",
-      brand: "Microsoft",
-      image: "/placeholder.svg?height=300&width=400&text=Surface+Laptop",
-      specs: {
-        screen: "13.5 pulgadas",
-        processor: "Intel Core i7-1255U",
-        ram: "32GB",
-        storage: "1TB SSD",
-        resolution: "2256 x 1504",
-        os: "Windows 11",
-        weight: "1.29 kg",
-        battery: "18 horas",
-      },
-      description: "Elegancia y productividad en el ecosistema Microsoft.",
-      featured: false,
-      category: "Premium",
-      availability: "Disponible",
-    },
-  ]
-
-  const brands = ["Apple", "Acer", "HP", "Lenovo", "Dell", "ASUS", "Microsoft"]
   const ramOptions = ["8GB", "16GB", "32GB"]
   const processorTypes = ["Intel", "AMD", "Apple M3"]
 
+  const brands = useMemo(() => {
+    if (mainTab === "macbook") {
+      return ["Apple"]
+    } else {
+      return ["Acer", "HP", "Lenovo", "Dell", "ASUS", "Microsoft"]
+    }
+  }, [mainTab])
+
   const filteredLaptops = useMemo(() => {
-    const filtered = allLaptops.filter((laptop) => {
+    // Primero filtrar por tab principal (Apple vs otros)
+    const tabFiltered = allLaptops.filter((laptop) => {
+      if (mainTab === "macbook") {
+        return laptop.brand === "Apple"
+      } else {
+        return laptop.brand !== "Apple"
+      }
+    })
+
+    const filtered = tabFiltered.filter((laptop) => {
       const matchesSearch =
         laptop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         laptop.brand.toLowerCase().includes(searchTerm.toLowerCase())
@@ -286,23 +61,40 @@ export default function CatalogoPage() {
 
     // Sort
     switch (sortBy) {
-      // case "featured":
-      //   filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
-      //   break
+      case "featured":
+        filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
+        break
       case "name":
         filtered.sort((a, b) => a.name.localeCompare(b.name))
         break
       case "brand":
         filtered.sort((a, b) => a.brand.localeCompare(b.brand))
         break
+      case "price":
+        filtered.sort((a, b) => {
+          const priceA = Number.parseInt(a.price.match(/\d+/)?.[0] || "0")
+          const priceB = Number.parseInt(b.price.match(/\d+/)?.[0] || "0")
+          return priceA - priceB
+        })
+        break
     }
 
     return filtered
-  }, [searchTerm, selectedBrand, selectedRAM, selectedProcessor, sortBy])
+  }, [searchTerm, selectedBrand, selectedRAM, selectedProcessor, sortBy, mainTab])
+
+  const clearFilters = () => {
+    setSearchTerm("")
+    setSelectedBrand("all")
+    setSelectedRAM("all")
+    setSelectedProcessor("all")
+    setPriceRange("all")
+    setSortBy("featured")
+    setViewMode("grid")
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Page Title */}
+      {/* Header */}
       {<Header />}
 
       {/* Page Header */}
@@ -310,29 +102,56 @@ export default function CatalogoPage() {
         className="relative bg-cover bg-center bg-no-repeat text-white py-20"
         style={{ backgroundImage: "url('/images/mac_mr.jpg')" }}
       >
-        <div className="absolute inset-0 bg-blue-900/50 backdrop-brightness-75"></div>
+        <div className="absolute inset-0 bg-red-900/25 backdrop-brightness-75"></div>
         <div className="relative z-10 container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">Arriendo de Equipos</h1>
-              <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
-                Explora nuestra amplia selección de equipos tecnológicos de última generación.
-              </p>
-              <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
-                Más de 15 modelos disponibles para arriendo empresarial.
-              </p>
-              <div className="flex flex-wrap items-center gap-4 md:gap-6 text-blue-100 text-sm md:text-base">
-                <div className="flex items-center gap-2 w-full md:w-auto">
-                  <Laptop className="h-5 w-5" />
-                  <span>12+ Marcas</span>
-                </div>
-                <div className="flex items-center gap-2 w-full md:w-auto">
-                  <Star className="h-5 w-5" />
-                  <span>Equipos Certificados</span>
-                </div>
-                <div className="flex items-center gap-2 w-full md:w-auto">
-                  <Badge className="bg-green-500">Disponible 24/7</Badge>
-                </div>
+            <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">Arriendo de Equipos</h1>
+            <p className="text-xl lg:text-2xl mb-8 text-white-100 leading-relaxed">
+              Explora nuestra amplia selección de equipos tecnológicos de última generación.
+            </p>
+            <p className="text-xl lg:text-2xl mb-8 text-white-100 leading-relaxed">
+              Más de 15 modelos disponibles para arriendo empresarial.
+            </p>
+
+            {/* Main Category Tabs */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <button
+                onClick={() => setMainTab("notebook")}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                  mainTab === "notebook"
+                    ? "bg-white text-blue-600 shadow-lg"
+                    : "bg-white/20 text-white hover:bg-white/30"
+                }`}
+              >
+                <Laptop className="h-5 w-5 inline mr-2" />
+                Arriendo de Notebook
+              </button>
+              <button
+                onClick={() => setMainTab("macbook")}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                  mainTab === "macbook"
+                    ? "bg-white text-blue-600 shadow-lg"
+                    : "bg-white/20 text-white hover:bg-white/30"
+                }`}
+              >
+                <svg className="h-5 w-5 inline mr-2" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.987 11.987s11.987-5.367 11.987-11.987C24.003 5.367 18.636.001 12.017.001zM8.218 2.326c1.43 0 2.59 1.16 2.59 2.59s-1.16 2.59-2.59 2.59-2.59-1.16-2.59-2.59 1.16-2.59 2.59-2.59zm7.598 0c1.43 0 2.59 1.16 2.59 2.59s-1.16 2.59-2.59 2.59-2.59-1.16-2.59-2.59 1.16-2.59 2.59-2.59zM12.017 21.661c-5.338 0-9.674-4.336-9.674-9.674S6.679 2.313 12.017 2.313s9.674 4.336 9.674 9.674-4.336 9.674-9.674 9.674z" />
+                </svg>
+                Arriendo de MacBook
+              </button>
+            </div>
+
+            <div className="flex items-center gap-4 text-blue-100">
+              <div className="flex items-center gap-2">
+                <Laptop className="h-5 w-5" />
+                <span>{mainTab === "notebook" ? "8+ Modelos PC" : "4+ Modelos Mac"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Star className="h-5 w-5" />
+                <span>Equipos Certificados</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge className="bg-green-500">Disponible 24/7</Badge>
               </div>
             </div>
           </div>
@@ -435,18 +254,7 @@ export default function CatalogoPage() {
                 </div>
 
                 {/* Clear Filters */}
-                <Button
-                  variant="outline"
-                  className="w-full bg-transparent"
-                  onClick={() => {
-                    setSearchTerm("")
-                    setSelectedBrand("all")
-                    setSelectedRAM("all")
-                    setSelectedProcessor("all")
-                    setSortBy("featured")
-                    setViewMode("grid")
-                  }}
-                >
+                <Button variant="outline" className="w-full bg-transparent" onClick={clearFilters}>
                   Limpiar Filtros
                 </Button>
               </CardContent>
@@ -468,7 +276,9 @@ export default function CatalogoPage() {
                   Filtros
                 </Button>
                 <p className="text-gray-600">
-                  Mostrando {filteredLaptops.length} de {allLaptops.length} equipos
+                  Mostrando {filteredLaptops.length} de{" "}
+                  {allLaptops.filter((l) => (mainTab === "macbook" ? l.brand === "Apple" : l.brand !== "Apple")).length}{" "}
+                  equipos {mainTab === "macbook" ? "MacBook" : "Notebook"}
                 </p>
               </div>
 
@@ -478,13 +288,14 @@ export default function CatalogoPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="featured">Destacados</SelectItem>
                     <SelectItem value="name">Nombre A-Z</SelectItem>
                     <SelectItem value="brand">Marca</SelectItem>
-                    {/* <SelectItem value="featured">Destacados</SelectItem> */}
+                    <SelectItem value="price">Precio</SelectItem>
                   </SelectContent>
                 </Select>
 
-                <div className="flex border rounded-lg hidden md:flex">
+                <div className="flex border rounded-lg">
                   <Button
                     variant={viewMode === "grid" ? "default" : "ghost"}
                     size="sm"
@@ -516,11 +327,11 @@ export default function CatalogoPage() {
                     viewMode === "list" ? "flex flex-row" : ""
                   }`}
                 >
-                  {/* {laptop.featured && (
+                  {laptop.featured && (
                     <div className="bg-blue-600 text-white text-center py-2">
                       <Badge className="bg-white text-blue-600">⭐ Destacado</Badge>
                     </div>
-                  )} */}
+                  )}
 
                   <div className={`${viewMode === "list" ? "w-80" : ""} aspect-video relative overflow-hidden`}>
                     <Image
@@ -567,6 +378,7 @@ export default function CatalogoPage() {
                       </div>
 
                       <div className="flex items-center justify-between mb-4">
+                        <div className="text-2xl font-bold text-blue-600">{laptop.price}</div>
                         <Badge className="bg-green-100 text-green-800">{laptop.availability}</Badge>
                       </div>
 
@@ -575,12 +387,12 @@ export default function CatalogoPage() {
                           <Button className="w-full bg-blue-600 hover:bg-blue-700">Solicitar Cotización</Button>
                         </Link>
                         <Link href={`/catalogo/${laptop.id}`}>
-                        <Button
-                          variant="outline"
-                          className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
-                        >
-                          Ver Detalles
-                        </Button>
+                          <Button
+                            variant="outline"
+                            className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
+                          >
+                            Ver Detalles
+                          </Button>
                         </Link>
                       </div>
                     </CardContent>
@@ -595,15 +407,7 @@ export default function CatalogoPage() {
                 <Laptop className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">No se encontraron equipos</h3>
                 <p className="text-gray-600 mb-4">Intenta ajustar los filtros para ver más resultados</p>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setSearchTerm("")
-                    setSelectedBrand("all")
-                    setSelectedRAM("all")
-                    setSelectedProcessor("all")
-                  }}
-                >
+                <Button variant="outline" onClick={clearFilters}>
                   Limpiar Filtros
                 </Button>
               </div>
@@ -611,7 +415,15 @@ export default function CatalogoPage() {
           </div>
         </div>
       </div>
-
+      {/* Floating CTA */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <Link href="/cotizacion">
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 shadow-lg rounded-full px-6">
+            <Calculator className="h-5 w-5 mr-2" />
+            Cotizar Ahora
+          </Button>
+        </Link>
+      </div>
       {/* Footer */}
       {<Footer />}
       <WhatsAppButton />
